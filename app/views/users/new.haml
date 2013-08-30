@@ -1,0 +1,24 @@
+.row
+  %h1 Sign Up
+  = form_for @user, html:{class:"form-horizontal", role: "form"}, role:"form" do |f|
+    - if @user.errors.any?
+      .error_messages
+        %h2 Form is invalid
+        %ul
+          - for message in @user.errors.full_messages
+            %li= message
+    .form-group
+      = f.label :email, nil, class:"col-lg-2 control-label col-lg-offset-3"
+      .col-lg-4
+        = f.text_field :email, class:"form-control", placeholder: "Email"
+    .form-group
+      = f.label :password, nil, class:"col-lg-2 control-label col-lg-offset-3"
+      .col-lg-4
+        = f.password_field :password, class: "form-control", placeholder: "Password"
+    .form-group
+      = f.label :password_confirmation, "Password Confirmation", class:"col-lg-2 control-label col-lg-offset-3"
+      .col-lg-4
+        = f.password_field :password_confirmation, class: "form-control", placeholder: "Password Confirmation"
+    .actions 
+      .col-lg-4.col-lg-offset-5
+        = f.submit "Signup", class: "btn btn-success form-control"

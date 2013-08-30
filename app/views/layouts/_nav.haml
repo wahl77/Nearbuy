@@ -1,0 +1,36 @@
+.row
+  %nav.navbar.navbar-inverse{role: "navigation"} 
+    .container
+      .navbar-header
+        %button.navbar-toggle{type:"button", "data-toggle" => "collapse", "data-target" => ".navbar-ex1-collapse"}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        = link_to "Nearbuy", root_path, class:"navbar-brand"
+      .collapse.navbar-collapse.navbar-ex1-collapse
+        %ul.nav.navbar-nav
+          - if current_user
+            %li= link_to "My Profile", user_path(current_user)
+            %li= link_to "My Items", items_path
+            %li= link_to "Post", "#"
+            %li= link_to "Around Me", "#"
+
+        %ul.nav.navbar-nav.navbar-right
+          %li= link_to "About", about_path
+          - if current_user
+            %li= link_to "Logout #{current_user.email}", logout_path
+          - else 
+            %li= link_to "Login", "#login_modal", "data-toggle"=>"modal"
+
+        /= form_tag search_path, class:"navbar-form navbar-right form-inline", role: "search" do
+        /  = label_tag :search, nil, class:"sr-only"
+        /  = text_field_tag :search, nil, placeholder:"Search", class: "form-control"
+        /  = select_tag "range", grouped_options_for_select({"Range" => [["1 mile", 1], ["2 miles", 2], ["5 miles", 5]]}, 2), class: "form-control col-2 navbar-right"
+
+
+.row
+  - if !current_user
+    #login_modal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}/
+    = render partial:"sessions/login"
+

@@ -1,0 +1,32 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
+      %h4.modal-title Sign In
+    .modal-body
+      = form_tag sessions_path, html:{role:"form", class:"form-horizontal"} do 
+        .form-group
+          = label_tag :email, nil, class:"control-label"
+          .input-group
+            %span.input-group-addon
+              @
+              /%i.glyphicon.glyphicon-envelope
+            = text_field_tag :email, params[:email], placeholder:"E-mail", class:"form-control"
+        .form-group
+          = label_tag :pasword, nil, class:"control-label"
+          .input-group
+            %span.input-group-addon
+              &#9733;
+              /%i.glyphicon.glyphicon-asterisk
+            = password_field_tag :password, params[:password], type:"password", placeholder:"Password", class: "form-control"
+
+        .form-group
+          %label.checkbox 
+            %input{type:"checkbox", value:1, name:"remember_me"} Remember Me
+        .form-group
+          = submit_tag :Login, :class => "btn btn-success form-control"  
+
+    .modal-footer
+      = link_to "Signup", new_user_path
+      %br
+      = link_to "Forgot Password", root_path

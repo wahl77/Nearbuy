@@ -1,0 +1,19 @@
+.row
+  .col-lg-12
+    %h1 Here are your items
+    = pluralize(@items.length, "item")
+    listed
+
+    %table{width: "100%"}
+    - @items.each do |item|
+      %tr
+        %td= item.name
+        %td
+          = link_to "View", item_path(item.id), class: "btn btn-primary"
+          \|
+          = link_to "Edit", edit_item_path(item.id), class: "btn btn-warning"
+          \|
+          = link_to "Delete", item_path(item.id), method: :delete, class: "btn btn-danger"
+    %br
+
+    = link_to "New Item", new_item_path, class: "btn btn-success"

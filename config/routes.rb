@@ -1,4 +1,23 @@
 Nearbuy::Application.routes.draw do
+  root "static_pages#index"
+  get "/about" => "static_pages#about"
+
+  get "/logout" => "sessions#destroy", as: :logout
+
+  post "/search" => "static_pages#index", as: :search
+
+
+  get "/get_items" => "items#get_items", as: :get_items
+
+
+  resources :users
+  resources :sessions, only: [:create, :new, :destroy]
+
+  resources :items
+  resources :addresses
+
+  resources :comments, only: [:create, :destroy]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

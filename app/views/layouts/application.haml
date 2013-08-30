@@ -6,4 +6,20 @@
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
   %body
-    = yield
+    = render partial:"layouts/nav"
+    .container
+      .row
+        .col-lg-12
+          - unless flash[:notice].blank?
+            .alert.alert-info.alert-dismissable
+              %button{type:"button", class:"close", "data-dismiss" => "alert", "aria-hidden" => "true"} &times;
+              = flash[:notice]
+          - unless flash[:alert].blank?
+            .alert.alert-danger.alert-dismissable 
+              %button{type:"button", class:"close", "data-dismiss" => "alert", "aria-hidden" => "true"} &times;
+              = flash[:alert] 
+
+      .row
+        = yield
+
+    = yield :scripts

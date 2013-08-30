@@ -121,6 +121,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.7.9)
     multipart-post (1.2.0)
+    nested_form (0.3.2)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.6.8)
@@ -218,8 +219,6 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    turbolinks (1.3.0)
-      coffee-rails
     tzinfo (0.3.37)
     uglifier (2.2.1)
       execjs (>= 0.3.0)
@@ -243,6 +242,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   meta_request
+  nested_form
   pg
   pry-debugger
   pry-rails
@@ -255,5 +255,4 @@ DEPENDENCIES
   sorcery
   sunspot_rails
   sunspot_solr
-  turbolinks
   uglifier (>= 1.3.0)

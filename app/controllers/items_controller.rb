@@ -1,0 +1,92 @@
+class ItemsController < ApplicationController
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  skip_before_action :require_login, only:[:get_items]
+
+  def index
+    @items = current_user.items
+  end
+
+  def show
+  end
+
+  def new
+    @item = current_user.items.build
+  end
+
+  def edit
+    authorize! :update, @item
+  end
+
+  def create
+    @item = current_user.items.build(item_params)
+    respond_to do |format|
+      if @item.save
+        format.html { redirect_to @item, notice: 'Item was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @item }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @item.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    authorize! :update, @item
+    respond_to do |format|
+      if @item.update(item_params)
+        format.html { redirect_to @item, notice: 'Item was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @item.errors, status: :unprocessable_entity }
+      end 
+    end 
+  end
+
+  def destroy
+    authorize! :destroy, @item
+    @item.destroy
+    redirect_to items_path
+  end
+
+
+  def get_items
+    # For an HTTP request do the following
+    @ip = Geocoder.search("#{request.ip}") unless params[:address]
+
+    # Get the location from the AJAX call or from the IP if it's an HTTP request
+    params[:address] ||= {latitude: @ip.first.latitude, longitude: @ip.first.longitude} 
+
+    # Create an address object to perform the search
+    @address = Address.new(address_params)
+
+    # Make a list of all items near you
+    @items = Item.near(@address, 2)
+
+    respond_to do |format|
+      format.html { 
+        # This is the same as index page
+        render template: "static_pages/index"
+      }
+      format.json { 
+        # This is a list of JSON formated list containing item infor and image url
+        render json: @items.map{|item| {id: item.id, name: item.name, description: item.description, image: item.images.empty? ? nil : item.images.first.url } }.to_json 
+      }
+      format.js {}
+    end
+  end
+
+  private
+    def set_item
+      @item = Item.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def item_params
+      params.require(:item).permit(:name, :description, :address_id, images_attributes:[:url], :category_ids => [])
+    end
+
+    def address_params
+      params.require(:address).permit(:latitude, :longitude)
+    end
+end

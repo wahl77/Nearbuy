@@ -1,0 +1,9 @@
+- items.each do |item|
+  - if item.images.empty?
+    .item
+      %h1= link_to item.name, item_path(item)
+      %p= item.description
+  - else 
+    .item{style:"background: url(\"#{item.images.first.url}\"); background-size: 200px 200px; background-size: cover"}
+      %h1= link_to item.name, item_path(item)
+      %p= item.description

@@ -1,0 +1,36 @@
+.row
+  .col-lg-12
+    %h1= "Profile of #{@user.email}"
+    = link_to "Edit profile", edit_user_path(@user) if can? :update, @user
+
+.row
+  .col-lg-12
+    = image_tag @user.image.url if @user.image
+
+    %legend Contact information
+    First Name 
+    \:
+    = @user.first_name
+    %br
+    Last Name 
+    \:
+    = @user.last_name || "OK"
+
+.row
+  .col-lg-12
+    %br
+    %legend Addresses
+.row
+  .col-lg-6
+    - current_user.addresses.each do |address|
+      %address
+        %strong= address.name
+        %br
+        =address.number_and_street
+    = render partial:"addresses/form"
+
+
+  .col-lg-6
+    = render partial:"layouts/map", locals:{places: @user.addresses} if @user == current_user
+
+

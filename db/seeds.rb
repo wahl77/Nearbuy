@@ -5,3 +5,17 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Country.destroy_all
+Category.destroy_all
+%w[Switzerland USA].each do |x|
+  Country.create!(name: x)
+end
+
+%w( General Rentals Neighborliness Travel Education Pets Events Jobs Recommendations Restaurant Bar ).each do |x| 
+  Category.create(name: x)
+end
+
+
+a = User.create(email: "a@a.com", password: "a")
+

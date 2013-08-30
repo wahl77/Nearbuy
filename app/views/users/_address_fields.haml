@@ -1,0 +1,17 @@
+%em Address
+= address.link_to_remove "Remove this Address"
+.field
+  = address.label :name 
+  = address.text_field :name 
+.field
+  = address.label :number_and_street 
+  = address.text_field :number_and_street 
+.field
+  = address.label :city
+  = address.text_field :city
+.field
+  = address.label :zip_code
+  = address.text_field :zip_code
+.field
+  = address.label :country_id
+  = address.collection_select(:country_id, Country.all, :id, :name)

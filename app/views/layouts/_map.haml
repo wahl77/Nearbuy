@@ -1,0 +1,2 @@
+.gmap
+  = gmaps("map_options" => {"zoom" => 10, "auto_zoom" => places.length > 1, id: "map_#{places.first.id}"}, "markers" => {"data" => places.to_gmaps4rails}) if !places.first.nil?
