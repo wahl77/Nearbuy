@@ -4,10 +4,6 @@ Nearbuy::Application.routes.draw do
 
   get "/logout" => "sessions#destroy", as: :logout
 
-  post "/search" => "static_pages#index", as: :search
-
-
-
 
   resources :users
   resources :addresses
@@ -19,7 +15,7 @@ Nearbuy::Application.routes.draw do
     collection do 
       get "around_me"
       get "get_sample"
-      get "search"
+      post "search"
     end
   end
 
