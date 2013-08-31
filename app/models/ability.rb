@@ -28,6 +28,7 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
+    user ||= User.new # guest user (not logged in)
     can :create, Item
     can :read, Item
     can :around_me, Item

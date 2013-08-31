@@ -1,0 +1,22 @@
+= form_for comment, html:{role:"form", class:"new_comment form-horizontal"} do |f|
+  - if comment.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(comment.errors.count, "error")} prohibited this user from being saved:"
+      %ul
+        - comment.errors.full_comments.each do |msg|
+          %li= msg
+
+  = f.hidden_field :item_id, value: @item.id
+
+
+  .field.form-group
+    = f.label :content, "New Comment", class: "sr-only"
+    = f.text_area :content, rows:"3", style:'width:100%', class: "form-control", placeHolder: "New Comment"
+  .field.form-group
+    = f.label :public, "Privacy"
+    = f.radio_button :public, 1, checked: true
+    Public
+    = f.radio_button :public, 0
+    Private
+  .actions.form-group
+    = f.submit 'Send', class: "pull-right btn btn-success"

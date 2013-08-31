@@ -1,6 +1,6 @@
 .row
   %h1 Sign Up
-  = form_for @user, html:{class:"form-horizontal", role: "form"}, role:"form" do |f|
+  = form_for @user, html:{class:"form-horizontal", role: "form"} do |f|
     - if @user.errors.any?
       .error_messages
         %h2 Form is invalid

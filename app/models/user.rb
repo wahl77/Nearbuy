@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :image, allow_destroy: true
 
   has_many :items, dependent: :destroy
+  has_many :comments, through: :items
 
   has_many :addresses, as: :addressable, dependent: :destroy
   accepts_nested_attributes_for :addresses, allow_destroy: true, reject_if: lambda{|address| address[:num_and_street].blank? }

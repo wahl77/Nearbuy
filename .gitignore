@@ -18,3 +18,4 @@
 public/uploads
 solr/*
 log/sunspot*
+.sass-cache/

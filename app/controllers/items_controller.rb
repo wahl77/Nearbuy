@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :find_address, only:[:get_sample, :around_me, :search]
 
-  skip_before_action :require_login, only:[:get_sample]
+  skip_before_action :require_login, only:[:get_sample, :show]
 
   def index
     @items = current_user.items

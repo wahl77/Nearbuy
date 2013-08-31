@@ -1,7 +1,9 @@
 .row
   .col-lg-12
-    %h3 Item #{@item.name}
+    %legend Item #{@item.name}
 
+.row
+  .col-lg-6
     = link_to "Edit", edit_item_path(@item) if can? :edit, @item
     %br
 
@@ -13,6 +15,25 @@
     - @item.images.each do |image|
       = image_tag image.url
 
-.row
-  .col-lg-12
+  .col-lg-6
     = render partial:"layouts/map", locals:{places: [@item.address]}
+
+.row
+  .col-lg-6
+    %h4 Data
+    %strong Name:
+    = @item.name
+    %br
+    %strong Description:
+    = @item.description
+
+  .col-lg-6
+    %h4 Categories
+    = @item.categories.all.map{|c| c.name}.join(", ")
+
+.row
+  .col-lg-6.col-lg-offset-3
+    %h3 Comments
+    = render partial: "comments/form", locals:{comment: @item.comments.build} if current_user
+    %br
+    = render partial: "comments/comments", locals:{comments: @item.comments}
