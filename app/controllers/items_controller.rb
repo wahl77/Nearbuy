@@ -52,10 +52,24 @@ class ItemsController < ApplicationController
   end
 
   def around_me
+    if params[:categories].nil?
+      @categories = Category.all.map{|x| x.id.to_s}
+    else
+      @categories = params[:categories].split(",")
+    end 
+
     @address = user_current_location
 
     # Make a list of all items near you
     @items = Item.near(@address, 2)
+
+    respond_to do |format|
+      format.html 
+      format.json { 
+        @items = @items.map{|item| {id: item.id, name: item.name, description: item.description, image: item.images.empty? ? nil : item.images.first.url } if (item.categorizations.pluck(:category_id).map{|x| x.to_s} - @categories).size < item.categorizations.pluck(:category_id).map{|x| x.to_s}.size }.compact
+        render json: @items.to_json 
+      }
+    end
   end
 
   def get_sample

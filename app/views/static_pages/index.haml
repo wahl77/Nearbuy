@@ -117,10 +117,10 @@
           "address[longitude]": position.longitude
         }
         dataType: "json"
-        complete: (res, results) ->
+        complete: (response, status) ->
           $('.items').empty()
           $('.spinner').hide()
-          results = res.responseJSON
+          results = response.responseJSON
 
           for item in results
             link = $("<a>").attr("href", "items/" + item.id).text(item.name)
