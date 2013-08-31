@@ -23,3 +23,36 @@
         = yield
 
     = yield :scripts
+
+
+    - unless cookies[:location]
+      :coffee
+        jQuery -> 
+          find_user_geolocation = () ->
+            if navigator.geolocation
+              # Acquire HTML5 value in acquire_position
+              navigator.geolocation.getCurrentPosition(acquire_position, show_error)
+            else
+              # User does not support HTML5 geolocation feature
+
+          show_error = (error) ->
+            # Do nothing
+
+          acquire_position = (geo_position) ->
+            # Create a custom position object to display map
+            location = {
+              latitude: geo_position.coords.latitude
+              longitude: geo_position.coords.longitude
+            }
+            send_data(location)
+
+          send_data = (location) ->
+            options = {
+              url: "/update_geolocation" 
+              type: "get"
+              data: location = { location }
+            }
+            $.ajax(options)
+
+          # Get user location
+          find_user_geolocation()

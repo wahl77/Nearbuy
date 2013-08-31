@@ -19,6 +19,14 @@ class AddressesController < ApplicationController
     @address.destroy
     redirect_to user_path(current_user)
   end
+
+
+  def update_geolocation
+    cookies[:location] = {value: {latitude: params[:location][:latitude], longitude: params[:location][:longitude]}, expires: 1.hour.from_now}
+    respond_to do |format|
+      format.all { head :ok, content_type: "text/html" }
+    end
+  end
   
   private
     def set_address

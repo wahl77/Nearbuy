@@ -1,6 +1,8 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
-  skip_before_action :require_login, only:[:get_items]
+  before_action :find_address, only:[:get_sample, :around_me]
+
+  skip_before_action :require_login, only:[:get_sample]
 
   def index
     @items = current_user.items
@@ -49,19 +51,17 @@ class ItemsController < ApplicationController
     redirect_to items_path
   end
 
-
-  def get_items
-    # For an HTTP request do the following
-    @ip = Geocoder.search("#{request.ip}") unless params[:address]
-
-    # Get the location from the AJAX call or from the IP if it's an HTTP request
-    params[:address] ||= {latitude: @ip.first.latitude, longitude: @ip.first.longitude} 
-
-    # Create an address object to perform the search
-    @address = Address.new(address_params)
+  def around_me
+    @address = user_current_location
 
     # Make a list of all items near you
     @items = Item.near(@address, 2)
+  end
+
+  def get_sample
+
+    # Make a list of all items near you
+    @items = Item.near(@address, 2).sample(5)
 
     respond_to do |format|
       format.html { 
@@ -76,7 +76,24 @@ class ItemsController < ApplicationController
     end
   end
 
+
+  def search
+    @query = params[:search]
+    @items = Item.item_search(@query, find_address, params[:range]).results
+  end
+
   private
+    def find_address
+      # For an HTTP request do the following
+      ip = Geocoder.search("#{request.ip}") unless params[:address]
+
+      # Get the location from the AJAX call or from the IP if it's an HTTP request
+      params[:address] ||= {latitude: ip.first.latitude, longitude: ip.first.longitude} 
+
+      # Create an address object to perform the search
+      @address = Address.new(address_params)
+    end
+
     def set_item
       @item = Item.find(params[:id])
     end

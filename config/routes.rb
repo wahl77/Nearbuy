@@ -7,14 +7,22 @@ Nearbuy::Application.routes.draw do
   post "/search" => "static_pages#index", as: :search
 
 
-  get "/get_items" => "items#get_items", as: :get_items
 
 
   resources :users
+  resources :addresses
   resources :sessions, only: [:create, :new, :destroy]
 
-  resources :items
-  resources :addresses
+  get "/update_geolocation" => "addresses#update_geolocation", as: :update_geolocation
+
+  resources :items do
+    collection do 
+      get "around_me"
+      get "get_sample"
+      get "search"
+    end
+  end
+
 
   resources :comments, only: [:create, :destroy]
 

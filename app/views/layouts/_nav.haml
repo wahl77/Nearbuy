@@ -14,7 +14,7 @@
             %li= link_to "My Profile", user_path(current_user)
             %li= link_to "My Items", items_path
             %li= link_to "Post", "#"
-            %li= link_to "Around Me", "#"
+            %li= link_to "Around Me", around_me_items_path
 
         %ul.nav.navbar-nav.navbar-right
           %li= link_to "About", about_path
@@ -23,10 +23,10 @@
           - else 
             %li= link_to "Login", "#login_modal", "data-toggle"=>"modal"
 
-        /= form_tag search_path, class:"navbar-form navbar-right form-inline", role: "search" do
-        /  = label_tag :search, nil, class:"sr-only"
-        /  = text_field_tag :search, nil, placeholder:"Search", class: "form-control"
-        /  = select_tag "range", grouped_options_for_select({"Range" => [["1 mile", 1], ["2 miles", 2], ["5 miles", 5]]}, 2), class: "form-control col-2 navbar-right"
+        = form_tag search_path, class:"navbar-form navbar-right form-inline", role: "search" do
+          = label_tag :search, nil, class:"sr-only"
+          = text_field_tag :search, nil, placeholder:"Search", class: "form-control"
+          = select_tag "range", grouped_options_for_select({"Range" => [["1 mile", 1], ["2 miles", 2], ["5 miles", 5]]}, 2), class: "form-control col-2 navbar-right"
 
 
 .row

@@ -14,4 +14,22 @@ class ApplicationController < ActionController::Base
     def not_authenticated
       redirect_to root_path, :alert => "Please login first."
     end
+
+    def user_current_location
+      # For an HTTP request do the following
+      ip = Geocoder.search("#{request.ip}") unless cookies[:location]
+
+      if cookies[:location]
+        address = Address.new(eval(cookies[:location]))
+      else
+        address = Address.new(latitude: ip.first.latitude, longitude: ip.first.longitude)
+        if Rails.env.development?
+          #address = Address.new(latitude: 37.78257, longitude: -122.3899269)# SF
+          address = Address.new(latitude: 46.1983922, longitude: 6.142296099999999)# Geneva
+        end
+      end
+
+      return address
+
+    end
 end
