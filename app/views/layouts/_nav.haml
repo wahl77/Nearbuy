@@ -1,5 +1,5 @@
 .row
-  %nav.navbar.navbar-inverse{role: "navigation"} 
+  %nav.navbar.navbar-inverse{role: "navigation", style:"margin-bottom: 0px"} 
     .container
       .navbar-header
         %button.navbar-toggle{type:"button", "data-toggle" => "collapse", "data-target" => ".navbar-ex1-collapse"}
@@ -23,14 +23,20 @@
           - else 
             %li= link_to "Login", "#login_modal", "data-toggle"=>"modal"
 
-        = form_tag search_items_path, class:"navbar-form navbar-right form-inline", role: "search" do
-          = label_tag :search, nil, class:"sr-only"
-          = text_field_tag :search, nil, placeholder:"Search", class: "form-control"
-          = select_tag "range", grouped_options_for_select({"Range" => [["1 mile", 1], ["2 miles", 2], ["5 miles", 5]]}, 2), class: "form-control col-2 navbar-right"
 
+  %nav.navbar{role: "navigation"} 
+    .container
+      = form_tag search_items_path, class:"navbar-form form-inline", role: "search" do
+        .form-group.col-lg-4
+          = label_tag :query, nil, class:"sr-only"
+          = text_field_tag :query, nil, placeholder:"What? (Hammer, Ladder, ...)", class: "form-control"
+        .form-group.col-lg-4
+          = label_tag :location, nil, class:"sr-only"
+          = text_field_tag :location, nil, placeholder:"Where? (San Francisco, Brisbane, ...)", class: "form-control"
+        .form-group
+          = submit_tag "GO", class: "form-control btn btn-warning"
 
 .row
   - if !current_user
     #login_modal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}/
     = render partial:"sessions/login"
-

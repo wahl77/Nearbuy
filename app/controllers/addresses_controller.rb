@@ -1,5 +1,6 @@
 class AddressesController < ApplicationController
   before_action :set_address, only: [:show, :edit, :update, :destroy]
+  skip_before_action :require_login, only:[:update_geolocation]
 
   def create
     @address = current_user.addresses.build(address_params) 
