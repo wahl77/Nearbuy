@@ -18,32 +18,33 @@ class Item < ActiveRecord::Base
   validates :address_id,
     presence: true
 
-  validates :categories, 
+  validates :categories,
     length:{ minimum: 1, message: "item needs at least one category"}
-    
+
 
   def name=(value)
     write_attribute :name, value.capitalize
   end
 
 
-  searchable do 
-    text :name, boost: 10
-    text :description, boost: 7
-    integer :address_id
-    integer :category_ids, multiple: true do 
-      categories.map { |x| x.id }
-    end
+  #searchable do
+  #  text :name, boost: 10
+  #  text :description, boost: 7
+  #  integer :address_id
+  #  integer :category_ids, multiple: true do
+  #    categories.map { |x| x.id }
+  #  end
 
-  end
+  #end
 
   def self.item_search(query, address=nil, range=10, categories=nil)
     categories ||= Category.pluck(:id)
-    self.search do
-      fulltext query
-      with(:address_id, Address.near(address, range).map{|x| x.id})
-      with(:category_ids, categories)
-    end
+    #self.search do
+    #  fulltext query
+    #  with(:address_id, Address.near(address, range).map{|x| x.id})
+    #  with(:category_ids, categories)
+    #end
+    Item.joins(:categories).where("categories.id" => categories, address_id: Address.near(address, range).map{|x| x.id}.to_a).group("items.id").where("items.name @@ :q OR items.description @@ :q", q: "%#{query}%").order("items.id DESC")
   end
 
   # Find items in a certain radius of a location

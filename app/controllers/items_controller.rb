@@ -69,9 +69,7 @@ class ItemsController < ApplicationController
     @query = params[:query]
     @range = params[:range] ? params[:range].to_f : RANGE_CONSTANT
     @range = @range * current_user.profile.distance_multiplier if current_user
-
-    @items = (params[:query] && !params[:query].blank?) ? Item.item_search(@query, @address, @range, @categories).results : Item.near(@address, @range, @categories).includes(:user, :address, :images)
-
+    @items = (params[:query] && !params[:query].blank?) ? Item.item_search(@query, @address, @range, @categories).includes(:user, :address, :images) : Item.near(@address, @range, @categories).includes(:user, :address, :images)
     @items = @items.sample(4) unless current_user
     respond_to do |format|
       format.html{
