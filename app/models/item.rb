@@ -15,6 +15,9 @@ class Item < ActiveRecord::Base
   validates :name,
     presence: true
 
+  validates :address_id,
+    presence: true
+    
 
   def name=(value)
     write_attribute :name, value.capitalize

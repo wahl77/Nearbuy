@@ -25,14 +25,19 @@ class ItemsController < ApplicationController
       @item = current_user.items.build(item_params)
     else
       @item = current_user.items.build(item_with_address_params)
-      current_user.addresses << @item.address
+      current_user.addresses << @item.address if (@item.address && @item.address.valid?)
+      @item.address = @item.address 
     end
     respond_to do |format|
       if @item.save
         format.html { redirect_to @item, notice: 'Item was successfully created.' }
         format.json { render action: 'show', status: :created, location: @item }
       else
-        format.html { render action: 'new' }
+        format.html { 
+          @addres = @item.build_address
+          
+          render action: 'new' 
+        }
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
     end
