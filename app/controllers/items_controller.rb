@@ -104,7 +104,7 @@ class ItemsController < ApplicationController
 
 
   def search
-    # @ address already set by find_address
+    # @address already set by find_address
     @query = params[:query]
     @range = params[:range] || 10
     @items = Item.item_search(@query, @address, @range).results
@@ -112,7 +112,7 @@ class ItemsController < ApplicationController
 
   private
     def find_address
-      @address = params[:address] ? Address.new(address_params) : user_current_location
+      @address = params[:address] && !params[:address][:latitude].blank? ? Address.new(address_params) : user_current_location
     end
 
     def set_item
@@ -125,6 +125,9 @@ class ItemsController < ApplicationController
     end
     def item_with_address_params
       params.require(:item).permit(:name, :description, :address_id, images_attributes:[:url], address_attributes:[:name, :number_and_street, :city, :zip_code, :country_id, :state], :category_ids => [])
+    end
+    def address_params
+      params.require(:address).permit(:latitude, :longitude)
     end
 
     def address_params
