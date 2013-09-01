@@ -105,8 +105,9 @@ class ItemsController < ApplicationController
 
   def search
     # @ address already set by find_address
-    @query = params[:search]
-    @items = Item.item_search(@query, @address, params[:range]).results
+    @query = params[:query]
+    @range = params[:range] || 10
+    @items = Item.item_search(@query, @address, @range).results
   end
 
   private
