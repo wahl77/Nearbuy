@@ -1,4 +1,3 @@
-%script{type:"text/javascript", src:"http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"}
 .row
   .col-lg-12
     #map_home_page
@@ -26,18 +25,6 @@
   .col-lg-12
     .items
       = render partial:"items/items", locals:{items: @items}
-
-:coffee
-  jQuery ->
-
-    # Make autocomplete of address
-    initialize_gmaps_autocomplete = () ->
-      input = document.getElementById('search_box');
-      autocomplete = new google.maps.places.Autocomplete(input);
-      autocomplete.setTypes(['geocode']);
-
-    initialize_gmaps_autocomplete()
-      
 
 :coffee
   jQuery ->

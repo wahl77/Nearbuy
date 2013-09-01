@@ -22,8 +22,10 @@
       .row
         = yield
 
-    = yield :scripts
-
+    - if content_for?(:scripts)
+      = yield :scripts
+    - else 
+      %script{type:"text/javascript", src:"http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"}
 
     - unless cookies[:location]
       :coffee

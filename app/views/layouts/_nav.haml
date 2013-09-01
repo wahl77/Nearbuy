@@ -32,9 +32,9 @@
           = text_field_tag :query, nil, placeholder:"What? (Hammer, Ladder, ...)", class: "form-control"
         .form-group.col-lg-4
           = label_tag :location, nil, class:"sr-only"
-          = text_field_tag :location, nil, placeholder:"Where? (San Francisco, Brisbane, ...)", class: "form-control"
+          = text_field_tag :location, nil, placeholder:"Where? (San Francisco, Brisbane, ...)", class: "form-control", id:"search_location_nav"
         .form-group
-          = submit_tag "GO", class: "form-control btn btn-warning"
+          = submit_tag "Go", class: "form-control btn btn-warning"
 
 .row
   - if !current_user
