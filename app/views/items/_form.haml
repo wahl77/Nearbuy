@@ -26,9 +26,45 @@
               = f.text_area :description, class:"form-control", placeholder: "Description"
 
           .field.form-group
-            = f.label :address_id, nil, class:"col-lg-2 control-label col-lg-offset-3"
-            .col-lg-4
-              = f.select :address_id, options_for_select(current_user.addresses.map{|x| [x.name, x.id]}), {}, class: "form-control"
+            %legend.col-lg-6.col-lg-offset-3 Address
+            #old_address
+              = f.label :address_id, nil, class:"col-lg-2 control-label col-lg-offset-3"
+              .col-lg-4#old_address
+                = f.select :address_id, options_for_select(current_user.addresses.map{|x| [x.name, x.id]}), {}, class: "form-control"
+                = link_to "New Address", "#", id: "new_address"
+
+            #new_address{style:"display: none"}
+
+              = f.fields_for :address do |address_form|
+                .field.form-group
+                  = address_form.label :name, nil, class: "col-lg-2 control-label col-lg-offset-3"
+                  .col-lg-4
+                    = address_form.text_field :name, placeholder: "Home", class:"form-control"
+                .field.form-group
+                  = address_form.label :number_and_street, "Number And Street",  class: "col-lg-2 control-label col-lg-offset-3"
+                  .col-lg-4
+                    = address_form.text_field :number_and_street, class:"form-control"
+
+                .field.form-group
+                  = address_form.label :city, nil,  class: "col-lg-2 control-label col-lg-offset-3"
+                  .col-lg-4
+                    = address_form.text_field :city, class: "form-control"
+
+                .field.form-group
+                  = address_form.label :state, nil,  class: "col-lg-2 control-label col-lg-offset-3"
+                  .col-lg-4
+                    = address_form.select :state, ["AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FM", "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MH", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "MP", "OH", "OK", "OR", "PW", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VI", "VA", "WA", "WV", "WI", "WY"], {}, class:"form-control"
+
+                .field.form-group
+                  = address_form.label :zip_code, class: "col-lg-2 control-label col-lg-offset-3"
+                  .col-lg-4
+                    = address_form.text_field :zip_code, class: "form-control"
+                
+                .field.form-group
+                  = address_form.label :country_id, class: "col-lg-2 control-label col-lg-offset-3"
+                  .col-lg-4
+                    = address_form.collection_select(:country_id, Country.all, :id, :name, {}, {class: "form-control"})
+  
 
 
           .field.form-group
@@ -54,3 +90,12 @@
           .actions
             .col-lg-4.col-lg-offset-5
               = f.submit "Submit", class: "btn btn-success"
+
+
+:coffee
+  jQuery ->
+    $("#new_address").on("click", 
+      (event) -> 
+        $("#old_address").remove()
+        $("#new_address").show()
+    )

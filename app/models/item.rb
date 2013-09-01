@@ -1,6 +1,8 @@
 class Item < ActiveRecord::Base
   belongs_to :user
+
   belongs_to :address
+  accepts_nested_attributes_for :address, allow_destroy: true, reject_if: lambda{|address| address[:number_and_street].blank? }
 
   has_many :images, as: :imageable, dependent: :destroy
   accepts_nested_attributes_for :images, allow_destroy: true, reject_if: lambda{|x| x[:url].blank?}

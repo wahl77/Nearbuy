@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :comments, through: :items
 
   has_many :addresses, as: :addressable, dependent: :destroy
-  accepts_nested_attributes_for :addresses, allow_destroy: true, reject_if: lambda{|address| address[:num_and_street].blank? }
+  accepts_nested_attributes_for :addresses, allow_destroy: true, reject_if: lambda{|address| address[:number_and_street].blank? }
 
   validates :email,
     presence: true,

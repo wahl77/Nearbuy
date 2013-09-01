@@ -13,6 +13,7 @@ class ItemsController < ApplicationController
 
   def new
     @item = current_user.items.build
+    @addres = @item.build_address
   end
 
   def edit
@@ -20,7 +21,12 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = current_user.items.build(item_params)
+    if params[:item][:address_id]
+      @item = current_user.items.build(item_params)
+    else
+      @item = current_user.items.build(item_with_address_params)
+      current_user.addresses << @item.address
+    end
     respond_to do |format|
       if @item.save
         format.html { redirect_to @item, notice: 'Item was successfully created.' }
@@ -110,6 +116,9 @@ class ItemsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
       params.require(:item).permit(:name, :description, :address_id, images_attributes:[:url], :category_ids => [])
+    end
+    def item_with_address_params
+      params.require(:item).permit(:name, :description, :address_id, images_attributes:[:url], address_attributes:[:name, :number_and_street, :city, :zip_code, :country_id, :state], :category_ids => [])
     end
 
     def address_params
