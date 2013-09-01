@@ -25,59 +25,8 @@
   .col-lg-12
     .items
       = render partial:"items/items", locals:{items: @items}
-
 :coffee
   jQuery ->
-
-    # This tries to use HTML 5 location info
-    find_user_geolocation = (event) ->
-      $('.spinner').show();
-      if navigator.geolocation
-        # Acquire HTML5 value in acquire_position
-        navigator.geolocation.getCurrentPosition(acquire_position, show_error)
-      else
-        # User does not support HTML5 geolocation feature
-        alert "Sorry, your browser does not suport GeoLocation"
-
-    # Find information from address field
-    find_address_location = (event) -> 
-        $('.spinner').show();
-        event.preventDefault()
-        # Use google Geocode to do so
-        geocoder = new google.maps.Geocoder()
-        address = $('#search_box').val()
-        geocoder.geocode({'address': address}, locate_address)
-
-    # The callback from Google geocoder
-    locate_address = (results, status) ->
-      # Create a custom position object to display map
-      position = {
-        latitude: results[0].geometry.location.ob 
-        longitude: results[0].geometry.location.pb
-      }
-      # Finally, display the map
-      display_map(position)
-      # And get items
-      get_items(position)
-
-    # Used as the callback of HTML5 the invormation in variable geo_position contains all data from 
-    # HTML5's geolocation object
-    acquire_position = (geo_position) ->
-      # Create a custom position object to display map
-      position = {
-        latitude: geo_position.coords.latitude
-        longitude: geo_position.coords.longitude
-      }
-      # Finally, display the map
-      display_map(position)
-      # And get items
-      get_items(position)
-      
-    # This error will show if something goes wrong when getting HTML5 Geolocation
-    show_error = (error) ->
-      alert "Sorry, error occured" + error
-
-    # Diplay a map given a position object
     display_map = (position) ->
       mapOptions = {
         zoom: 13
@@ -94,32 +43,6 @@
       })
       map.setCenter(pos)
 
-    # Get a new item list based on position
-    get_items = (position) ->
-      options = {
-        url: "/items/get_sample" 
-        type: "get"
-        data: {
-          "address[latitude]": position.latitude
-          "address[longitude]": position.longitude
-        }
-        dataType: "json"
-        complete: (response, status) ->
-          $('.items').empty()
-          $('.spinner').hide()
-          results = response.responseJSON
-
-          for item in results
-            link = $("<a>").attr("href", "items/" + item.id).text(item.name)
-            header = $('<h1>').append(link)
-            div = $("<div>").attr("class", "item").append(header).append("</h1><p>" + item.description + "</p>")
-            div.attr("style", "background: url(" + item.image.url.url + "); background-size: 200px 200px; background-size: cover") if item.image != null
-            $('.items').append(div)
-
-      }
-
-      $.ajax(options)
-
     # This methods gets loaded at the start with varaibles from server. 
     # This allows some kind of location based on ip
     put_map = () ->
@@ -134,10 +57,3 @@
     # First verions of map to be displayed based on 
     # ip or something we get from server
     put_map()
-
-    # HTML5 Geolocation when locating a person
-    $('#locate_me').on("click", find_user_geolocation)
-    
-    # Get information from input field
-    $('#find_address').on("click", find_address_location)
-    $('form#address').on("submit", find_address_location) 
