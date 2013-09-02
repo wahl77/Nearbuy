@@ -1,13 +1,15 @@
 .row
-  .col-lg-12
+  .col-lg-6
     %h1= "Profile of #{@user.email}"
-    = link_to "Edit profile", edit_user_path(@user) if can? :update, @user
+.row
+  .col-lg-6.col-lg-offset-6{style: "text-align: right"}
+    = link_to "Edit profile", edit_user_path(@user), class: "btn btn-info" if can? :update, @user
 
 .row
   .col-lg-12
     = image_tag @user.image.url if @user.image
 
-    %legend Contact information
+    %h4 Contact information
     First Name 
     \:
     = @user.first_name
@@ -16,17 +18,20 @@
     \:
     = @user.last_name || "OK"
 
-.row
-  .col-lg-12
-    %br
-    %legend Addresses
+    %hr.soften
+
 .row
   .col-lg-6
+    %h4 Addresses
     - current_user.addresses.each do |address|
       %address
         %strong= address.name
         %br
         =address.number_and_street
+        %br
+        = address.city
+        %br
+        = "#{address.state} #{address.zip_code}, #{address.country.name}"
     = render partial:"addresses/form"
 
 
