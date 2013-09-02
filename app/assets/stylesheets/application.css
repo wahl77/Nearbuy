@@ -52,3 +52,8 @@
   max-width: 940px;
   margin: 0 auto;
 }
+
+#spread_post_dropdown{
+  padding: 10px;
+  padding-top: 5px;
+}

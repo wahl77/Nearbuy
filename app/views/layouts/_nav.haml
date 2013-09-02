@@ -13,7 +13,6 @@
           - if current_user
             %li= link_to "My Profile", user_path(current_user)
             %li= link_to "My Items", items_path
-            %li= link_to "Post", "#"
             %li= link_to "Around Me", around_me_items_path
 
         %ul.nav.navbar-nav.navbar-right
@@ -26,20 +25,86 @@
 
   %nav.navbar{role: "navigation"} 
     .container
-      = form_tag search_items_path, class:"navbar-form form-inline", id: "search_address", role: "search" do
-        .form-group.col-lg-4
-          = label_tag :query, nil, class:"sr-only"
-          = text_field_tag :query, nil, placeholder:"What? (Hammer, Ladder, ...)", class: "form-control"
-        .form-group.col-lg-4
-          = label_tag :location, nil, class:"sr-only"
-          = text_field_tag :location, nil, placeholder:"Where? (San Francisco, Brisbane, ...)", class: "form-control", id:"search_location_nav"
-          %input{type:"hidden", id:"info_bis", name:"cityLat"}
-          %input{type:"hidden", id:"cityLat", name:"address[latitude]"}
-          %input{type:"hidden", id:"cityLng", name:"address[longitude]"}
-        .form-group
-          = submit_tag "Go", class: "form-control btn btn-warning"
+      .col-lg-4
+        - if current_user
+          - @form_item = Item.new
+          - @form_address = @form_item.build_address
+          = form_for @form_item, html:{class:"navbar-form form-inline"} do  |f|
+            = f.label :name, nil, class:"sr-only"
+            = f.text_field :name, class: "form-control", placeholder: "Post Title"
+            .dropdown#spread_post_d
+              .dropdown-menu#spread_post_dropdown{"aria-labelledby" => "dropdownMenu1", :role => "menu", style:"width: 100%"}
+                .close_drop_down.pull-right{style: "font-size: 26px; display: block"}= link_to "×", "#"
+                %br
+
+                .field
+                  = f.label :description, nil, class:"label-control"
+                  = f.text_area :description, class: "form-control"
+
+                - if current_user.addresses.empty?
+                  = f.fields_for :address do |address_form|
+                    .field
+                      = address_form.label :name, "Address Name", class: "control-label"
+                      = address_form.text_field :name, placeholder: "Address Name", class:"form-control"
+                    .field
+                      = address_form.label :number_and_street, "Number And Street",  class: "control-label"
+                      = address_form.text_field :number_and_street, class:"form-control"
+                    .field
+                      = address_form.label :city, nil,  class: "control-label"
+                      = address_form.text_field :city, class: "form-control"
+                    
+                    .field
+                      = address_form.label :state, nil,  class: "control-label"
+                      = address_form.select :state, ["AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FM", "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MH", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "MP", "OH", "OK", "OR", "PW", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VI", "VA", "WA", "WV", "WI", "WY"], {}, class:"form-control"
+                    .field
+                      = address_form.label :zip_code, class: "control-label"
+                      = address_form.text_field :zip_code, class: "form-control"
+                    
+                    .field
+                      = address_form.label :country_id, class: "control-label"
+                      = address_form.collection_select(:country_id, Country.all, :id, :name, {}, {class: "form-control"})
+                        
+                - else
+                
+                  .field
+                    = f.label :address_id, nil, class:"control-label"
+                    = f.select :address_id, options_for_select(current_user.addresses.map{|x| [x.name, x.id]}), {}, class: "form-control"
+                = f.fields_for @form_item.images.build do |form|
+                  .field
+                    = form.label :url, "Add Picture", class:"label-control"
+                    = form.file_field :url, class:"form-control"
+                .field 
+                  %br
+                  = f.submit class: "btn btn-warning col-lg-12"
+
+      .col-lg-8
+        .row
+          = form_tag search_items_path, class:"navbar-form form-inline", id: "search_address", role: "search" do
+            .col-lg-6.col-lg-offset-1
+              = label_tag :query, nil, class:"sr-only"
+              = text_field_tag :query, nil, placeholder:"What? (Hammer, Ladder, ...)", class: "form-control"
+               
+            .col-lg-3
+              = label_tag :location, nil, class:"sr-only"
+              = text_field_tag :location, nil, placeholder:"Where? (San Francisco, Brisbane, ...)", class: "form-control", id:"search_location_nav"
+              %input{type:"hidden", id:"info_bis", name:"cityLat"}
+              %input{type:"hidden", id:"cityLat", name:"address[latitude]"}
+              %input{type:"hidden", id:"cityLng", name:"address[longitude]"}
+            .col-lg-2
+              = submit_tag "Go", class: "form-control btn btn-warning"
 
 .row
   - if !current_user
     #login_modal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}/
     = render partial:"sessions/login"
+
+:coffee
+  jQuery -> 
+    $('#item_name').on("focus", 
+      (event) -> 
+        $('#spread_post_d').addClass("open")
+    )
+    $('.close_drop_down').on('click'
+      (event) ->
+        $('#spread_post_d').removeClass("open")
+    )
