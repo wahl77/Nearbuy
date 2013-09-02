@@ -52,6 +52,11 @@ group :test, :development do
   gem 'pry-debugger'
   gem 'dotenv-rails'
   gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
+  gem 'guard-rspec'
+  gem 'guard-livereload'
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
 end
 
 group :doc do

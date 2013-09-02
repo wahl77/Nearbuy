@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :item do
     name "MyString"
     description "MyString"
-    user nil
-    address nil
+    user 
+    address 
   end
 end
