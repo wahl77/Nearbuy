@@ -57,3 +57,11 @@
   padding: 10px;
   padding-top: 5px;
 }
+
+#query_nav, #location_query_nav{
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+

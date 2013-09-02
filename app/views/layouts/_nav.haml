@@ -80,11 +80,11 @@
       .col-lg-8
         .row
           = form_tag search_items_path, class:"navbar-form form-inline", id: "search_address", role: "search" do
-            .col-lg-6.col-lg-offset-1
+            #query_nav.col-lg-6.col-lg-offset-1
               = label_tag :query, nil, class:"sr-only"
               = text_field_tag :query, nil, placeholder:"What? (Hammer, Ladder, ...)", class: "form-control"
                
-            .col-lg-3
+            #location_query_nav.col-lg-3
               = label_tag :location, nil, class:"sr-only"
               = text_field_tag :location, nil, placeholder:"Where? (San Francisco, Brisbane, ...)", class: "form-control", id:"search_location_nav"
               %input{type:"hidden", id:"info_bis", name:"cityLat"}
@@ -98,13 +98,3 @@
     #login_modal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}/
     = render partial:"sessions/login"
 
-:coffee
-  jQuery -> 
-    $('#item_name').on("focus", 
-      (event) -> 
-        $('#spread_post_d').addClass("open")
-    )
-    $('.close_drop_down').on('click'
-      (event) ->
-        $('#spread_post_d').removeClass("open")
-    )

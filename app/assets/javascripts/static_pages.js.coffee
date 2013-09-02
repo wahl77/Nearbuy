@@ -110,3 +110,32 @@ jQuery ->
   $('#find_address').on("click", find_address_location)
   $('form#address').on("submit", find_address_location) 
   $('form#search_address').on("submit", find_address_location) 
+
+  # The following is for displaying quick form in posting
+  $('#item_name').on("focus", 
+    (event) -> 
+      $('#spread_post_d').addClass("open")
+  )
+  $('.close_drop_down').on('click'
+    (event) ->
+      $('#spread_post_d').removeClass("open")
+  )
+  # End of quick post
+
+  # The following is for input field size of navbar
+  $("#search_location_nav").on('focus', 
+    (event) ->
+      $("#query_nav").removeClass('col-lg-6')
+      $("#query_nav").addClass('col-lg-3')
+      $("#location_query_nav").removeClass('col-lg-3')
+      $("#location_query_nav").addClass('col-lg-6')
+  )
+
+  $("#search_location_nav").on('focusout', 
+    (event) ->
+      $("#query_nav").addClass('col-lg-6')
+      $("#query_nav").removeClass('col-lg-3')
+      $("#location_query_nav").addClass('col-lg-3')
+      $("#location_query_nav").removeClass('col-lg-6')
+  )
+  # End of changind field size
