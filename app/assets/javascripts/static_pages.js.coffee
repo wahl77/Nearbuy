@@ -112,9 +112,10 @@ jQuery ->
   $('form#search_address').on("submit", find_address_location) 
 
   # The following is for displaying quick form in posting
-  $('#item_name').on("focus", 
+  $('#post_item').on("focus", 
     (event) -> 
       $('#spread_post_d').addClass("open")
+      $('#item_name').focus()
   )
   $('.close_drop_down').on('click'
     (event) ->

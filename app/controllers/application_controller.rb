@@ -3,12 +3,18 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_action :require_login
+  before_action :require_login, :create_menu_variables
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to user_path(current_user), alert: "Message: #{exception.message}"
   end
 
+
+  def create_menu_variables
+    @form_item = Item.new
+    @form_address = @form_item.build_address
+    @form_image = @form_item.images.build
+  end
 
   protected
     def not_authenticated
@@ -30,6 +36,5 @@ class ApplicationController < ActionController::Base
       end
 
       return address
-
     end
 end

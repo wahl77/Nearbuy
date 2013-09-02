@@ -55,6 +55,7 @@ group :test, :development do
   gem 'guard-rspec'
   gem 'guard-livereload'
   gem 'guard-bundler'
+  gem 'guard-zeus'
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'database_cleaner'

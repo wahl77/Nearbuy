@@ -10,7 +10,6 @@ describe "items" do
 
   it "can be edited only if I own it" do
     visit item_path(@item)
-    sleep 5
     expect(page).to have_link "Edit"
     expect(page).to have_content @item.name
     click_link "Edit"

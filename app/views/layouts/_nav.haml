@@ -27,15 +27,19 @@
     .container
       .col-lg-4
         - if current_user
-          - @form_item = Item.new
-          - @form_address = @form_item.build_address
+          %form.navbar.navbar-form
+            = text_field_tag "OK", nil, placeholder: "Spread Post", class:"form-control", id:"post_item"
           = form_for @form_item, html:{class:"navbar-form form-inline"} do  |f|
-            = f.label :name, nil, class:"sr-only"
-            = f.text_field :name, class: "form-control", placeholder: "Post Title"
             .dropdown#spread_post_d
-              .dropdown-menu#spread_post_dropdown{"aria-labelledby" => "dropdownMenu1", :role => "menu", style:"width: 100%"}
+              .dropdown-menu#spread_post_dropdown{"aria-labelledby" => "dropdownMenu1", :role => "menu"}
                 .close_drop_down.pull-right{style: "font-size: 26px; display: block"}= link_to "×", "#"
                 %br
+                .field
+                  .row
+                    .col-lg-10
+                      = f.label :name, nil, class:"label-control"
+                    .col-lg-2
+                  = f.text_field :name, class: "form-control", placeholder: "Spread Post"
 
                 .field
                   = f.label :description, nil, class:"label-control"
@@ -69,7 +73,7 @@
                   .field
                     = f.label :address_id, nil, class:"control-label"
                     = f.select :address_id, options_for_select(current_user.addresses.map{|x| [x.name, x.id]}), {}, class: "form-control"
-                = f.fields_for @form_item.images.build do |form|
+                = f.fields_for :images do |form|
                   .field
                     = form.label :url, "Add Picture", class:"label-control"
                     = form.file_field :url, class:"form-control"

@@ -56,6 +56,18 @@
 #spread_post_dropdown{
   padding: 10px;
   padding-top: 5px;
+  width: 105%;
+  top: -61px;
+  left: -1px;
+}
+@media screen and (max-width: 768px) { 
+  #spread_post_dropdown{
+    padding: 10px;
+    padding-top: 5px;
+    top: -70px;
+    width: 102%;
+    left: -10px
+  }
 }
 
 #query_nav, #location_query_nav{
