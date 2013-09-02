@@ -26,6 +26,18 @@
       .row
         = yield
 
+    .row.footer
+      .container
+        %footer
+          .col-lg-6
+            &copy; 2013 - Nearbuy
+          .col-lg-6.pull-right
+            .text-right
+              :plain
+                <a href="mailto:&#119;&#097;&#104;&#108;&#055;&#055;+web&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">
+                  Contact
+                </a>                                         
+
     - if content_for?(:scripts)
       = yield :scripts
     - else 
