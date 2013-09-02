@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :find_address, only:[:get_sample, :around_me, :search]
 
-  skip_before_action :require_login, only:[:get_sample, :show]
+  skip_before_action :require_login, only:[:get_sample, :show, :search]
 
   def index
     @items = current_user.items
@@ -107,7 +107,9 @@ class ItemsController < ApplicationController
     # @address already set by find_address
     @query = params[:query]
     @range = params[:range] || 10
-    @items = Item.item_search(@query, @address, @range).results
+    @items = params[:query] ? Item.item_search(@query, @address, @range).results : Item.near(@address, 5).sample(5)
+    @items.sample(5) unless current_user
+    render template: "static_pages/index"
   end
 
   private

@@ -5,6 +5,7 @@
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
+    = yield :head
   %body
     = render partial:"layouts/nav"
     .container
@@ -20,6 +21,9 @@
               = flash[:alert] 
 
       .row
+        .col-lg-12
+          #map_banner
+      .row
         = yield
 
     - if content_for?(:scripts)
@@ -27,34 +31,9 @@
     - else 
       %script{type:"text/javascript", src:"http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"}
 
+
     - unless cookies[:location]
       :coffee
         jQuery -> 
-          find_user_geolocation = () ->
-            if navigator.geolocation
-              # Acquire HTML5 value in acquire_position
-              navigator.geolocation.getCurrentPosition(acquire_position, show_error)
-            else
-              # User does not support HTML5 geolocation feature
-
-          show_error = (error) ->
-            # Do nothing
-
-          acquire_position = (geo_position) ->
-            # Create a custom position object to display map
-            location = {
-              latitude: geo_position.coords.latitude
-              longitude: geo_position.coords.longitude
-            }
-            send_data(location)
-
-          send_data = (location) ->
-            options = {
-              url: "/update_geolocation" 
-              type: "get"
-              data: location = { location }
-            }
-            $.ajax(options)
-
           # Get user location
           find_user_geolocation()

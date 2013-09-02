@@ -43,7 +43,7 @@
 }
 /* End For GMaps */
 
-#map_home_page{
+#map_banner{
   width: 100%;
   height: 200px;
   border-radius-bottom: 10px;
@@ -51,6 +51,7 @@
   text-align: center;
   max-width: 940px;
   margin: 0 auto;
+  display: none;
 }
 
 #spread_post_dropdown{

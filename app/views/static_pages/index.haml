@@ -1,19 +1,11 @@
+/= gmaps("map_options" => {"libraries" => ["places"], "zoom" => 13, "auto_zoom" => false, id: "map_home_page", "detect_location" => "false"}, "markers" => {"data" => @address.to_gmaps4rails})
+/= gmaps("map_options" => {"zoom" => 13, "detect_location" => "true", "center_on_user" => "true", id: "map_home_page", raw:'{zoomControl: true, streetViewControl: false, mapTypeControl: false,}'}) #"auto_zoom" => false, id: "map_home_page"}, "markers" => {"data" => @address.to_gmaps4rails})
+      
+
 .row
   .col-lg-12
-    #map_home_page
-      /= gmaps("map_options" => {"libraries" => ["places"], "zoom" => 13, "auto_zoom" => false, id: "map_home_page", "detect_location" => "false"}, "markers" => {"data" => @address.to_gmaps4rails})
-      /= gmaps("map_options" => {"zoom" => 13, "detect_location" => "true", "center_on_user" => "true", id: "map_home_page", raw:'{zoomControl: true, streetViewControl: false, mapTypeControl: false,}'}) #"auto_zoom" => false, id: "map_home_page"}, "markers" => {"data" => @address.to_gmaps4rails})
-      
     %h1.text-center
       %span A great place to find goods
-    
-.row
-  .col-lg-12.text-center.input_search
-    %form#address
-      .before#locate_me
-      %input.input-block-level#search_box{type:"text", placeholder:"Type Address"}
-      .after#find_address
-      
 
 .row
   .col-lg-12
@@ -23,26 +15,26 @@
 
 .row
   .col-lg-12
+    %h3
+      - if params[:location] || params[:query]
+        = "Search " + "for #{params[:query]}" if params[:query] 
+        = "near #{params[:location]}" if params[:location]
+      - else
+        Some random items in your neighborhood
+    
+.row
+  .col-lg-12
     .items
       = render partial:"items/items", locals:{items: @items}
+
+= content_for :head do 
+  :css
+    #map_banner{
+      display: block;
+    }
+
 :coffee
   jQuery ->
-    display_map = (position) ->
-      mapOptions = {
-        zoom: 13
-        zoomControl: false,
-        disableDefaultUI: true, 
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
-      map = new google.maps.Map(document.getElementById('map_home_page'), mapOptions);
-      pos = new google.maps.LatLng(position.latitude, position.longitude);
-      infowindow = new google.maps.InfoWindow({
-        map: map,
-        position: pos,
-        content: '<div style="min-width: 150px; min-height: 30px;">Items around me</div>'
-      })
-      map.setCenter(pos)
-
     # This methods gets loaded at the start with varaibles from server. 
     # This allows some kind of location based on ip
     put_map = () ->

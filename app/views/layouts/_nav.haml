@@ -86,14 +86,13 @@
           = form_tag search_items_path, class:"navbar-form form-inline", id: "search_address", role: "search" do
             #query_nav.col-lg-6.col-lg-offset-1
               = label_tag :query, nil, class:"sr-only"
-              = text_field_tag :query, nil, placeholder:"What? (Hammer, Ladder, ...)", class: "form-control"
+              = text_field_tag :query, nil, placeholder:"What? (Hammer, Ladder, ...)", class: "form-control", value:"#{params[:query]}"
                
             #location_query_nav.col-lg-3
               = label_tag :location, nil, class:"sr-only"
-              = text_field_tag :location, nil, placeholder:"Where? (San Francisco, Brisbane, ...)", class: "form-control", id:"search_location_nav"
-              %input{type:"hidden", id:"info_bis", name:"cityLat"}
-              %input{type:"hidden", id:"cityLat", name:"address[latitude]"}
-              %input{type:"hidden", id:"cityLng", name:"address[longitude]"}
+              = text_field_tag :location, nil, placeholder:"Where? (San Francisco, Brisbane, ...)", class: "form-control", id:"search_location_nav", value:"#{params[:location]}"
+              %input{type:"hidden", id:"address[latitude]", name:"address[latitude]"} 
+              %input{type:"hidden", id:"address[longitude]", name:"address[longitude]"}
             .col-lg-2
               = submit_tag "Go", class: "form-control btn btn-warning"
 
