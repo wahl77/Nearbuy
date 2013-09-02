@@ -54,6 +54,7 @@ group :test, :development do
   gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
   gem 'guard-rspec'
   gem 'guard-livereload'
+  gem 'guard-bundler'
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'database_cleaner'

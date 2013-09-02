@@ -2,7 +2,9 @@
 
 FactoryGirl.define do
   factory :item do
-    name "MyString"
+    sequence :name do |n|
+        "Item#{n}"
+    end
     description "MyString"
     user 
     address 

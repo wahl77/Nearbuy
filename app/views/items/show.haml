@@ -4,7 +4,7 @@
 
 .row
   .col-lg-6
-    = link_to "Edit", edit_item_path(@item) if can? :edit, @item
+    = link_to "Edit", edit_item_path(@item), class:"btn btn-warning" if can? :edit, @item
     %br
 
     = @item.description

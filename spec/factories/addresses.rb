@@ -7,7 +7,7 @@ FactoryGirl.define do
     state "CA"
     zip_code "94107"
     name "SF"
-    country 
+    country
     latitude 1.5
     longitude 1.5
     gmaps false

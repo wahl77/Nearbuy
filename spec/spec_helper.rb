@@ -51,5 +51,7 @@ RSpec.configure do |config|
   config.after(:each) do
     ::Sunspot.session = ::Sunspot.session.original_session
   end
+
+  config.include(SessionMacro)
   
 end

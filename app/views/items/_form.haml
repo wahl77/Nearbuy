@@ -1,6 +1,6 @@
 .row
   .col-lg-12
-    = nested_form_for @item, html:{class:"form-horizontal", role:"form"} do |f|
+    = nested_form_for @item, namespace: "standard", html:{class:"form-horizontal", role:"form"} do |f|
       .row
         - if @item.errors.any?
           .error_messages
