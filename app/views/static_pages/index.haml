@@ -7,13 +7,13 @@
     %h1.text-center
       %span A great place to find goods
 
-.row
+.row.container
   .col-lg-12
     %p.text-center
       %h1{style:"display: none"} Items Around You
     .spinner{style:"display:none"}= image_tag "ajax-loader.gif"
 
-.row
+.row.container
   .col-lg-12
     %h3
       - if params[:location] || params[:query]
@@ -29,8 +29,10 @@
 
 = content_for :head do 
   :css
-    #map_banner{
-      display: block;
+    @media screen and (min-width: 480px) { 
+      #map_banner{
+        display: block;
+      }
     }
 
 :coffee

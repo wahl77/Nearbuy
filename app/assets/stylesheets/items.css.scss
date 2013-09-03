@@ -15,6 +15,12 @@
   margin: 10px;
   text-align: center;
 }
+@media screen and (max-width: 768px) { 
+  .item{
+    float: none;
+    margin: 10px auto;
+  }
+}
 
 .item a, .item p {
   background-color: rgba(255, 255, 255, 0.4);
