@@ -17,8 +17,9 @@
   .col-lg-12
     %h3
       - if params[:location] || params[:query]
-        = "Search " + "for #{params[:query]}" if params[:query] 
-        = "near #{params[:location]}" if params[:location]
+        Search
+        = "for #{params[:query]}" unless params[:query].blank?
+        = "near #{params[:location]}" unless params[:location].blank?
       - else
         Some random items in your neighborhood
     

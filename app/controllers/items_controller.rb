@@ -108,7 +108,7 @@ class ItemsController < ApplicationController
     @query = params[:query]
     @range = params[:range] || 10
     @items = params[:query] ? Item.item_search(@query, @address, @range).results : Item.near(@address, 5).sample(5)
-    @items.sample(5) unless current_user
+    @items = @items.sample(5) unless current_user
     render template: "static_pages/index"
   end
 
