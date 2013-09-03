@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def show
-    @address = Address.new#current_user.addresses.build
+    @address = Address.new #current_user.addresses.build
   end
 
   def new

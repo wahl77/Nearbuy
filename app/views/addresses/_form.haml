@@ -1,25 +1,33 @@
 = form_for @address do |f|
+  - if @address.errors.any?
+    .error_messages
+      %h2 Form is invalid
+      %ul
+        - for message in @address.errors.full_messages
+          %li= message
+
   .field
     = f.label :name
-    = f.text_field :name, placeholder: "Home"
+    = f.text_field :name, placeholder: "Home", class: "form-control"
   .field
     = f.label :number_and_street, "Number and Street"
-    = f.text_field :number_and_street
+    = f.text_field :number_and_street, class: "form-control"
 
   .field
     = f.label :city
-    = f.text_field :city
+    = f.text_field :city, class: "form-control"
 
   .field
     = f.label :state
-    = f.select :state, ["AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FM", "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MH", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "MP", "OH", "OK", "OR", "PW", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VI", "VA", "WA", "WV", "WI", "WY"]
+    = f.select :state, ["AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FM", "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MH", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "MP", "OH", "OK", "OR", "PW", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VI", "VA", "WA", "WV", "WI", "WY"], {}, class: "form-control"
 
   .field
     = f.label :zip_code
-    = f.text_field :zip_code
+    = f.text_field :zip_code, class: "form-control"
   .field
     = f.label :country_id
-    = f.collection_select(:country_id, Country.all, :id, :name)
+    = f.collection_select(:country_id, Country.all, :id, :name, {}, {class: "form-control"})
   
-  .actions= f.submit "Add Address"
+    %input{:name => "address[gmaps]", :type => "hidden", :value => "0"}
+  .actions= f.submit
 

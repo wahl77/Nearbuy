@@ -45,11 +45,11 @@ class Ability
     end
 
     can :create, Address
-    can :read, Address do |address|
+    can [:read, :update], Address do |address|
       user.addresses.include? address
     end
     can :destroy, Address do |address|
-      user.addresses.include? address
+      (user.addresses.include? address) && (address.items.empty?)
     end
 
 

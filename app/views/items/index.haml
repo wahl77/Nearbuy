@@ -1,21 +1,25 @@
-.row
+.row.container
   .col-lg-12
     %h1 Here are your items
-    = pluralize(@items.length, "item")
+    /= pluralize(@items.length, "item")
     listed
+    %br
 
-    %table{width: "100%"}
-      - @items.each do |item|
-        %tr
-          %td= item.name
-          %td
+.row.container
+  .col-lg-4.col-lg-offset-2.col-xs-4.col-xs-offset-2
+  = link_to "New Item", new_item_path, class: "btn btn-success"
+
+.row.container
+  .col-lg-12
+    - @addresses.each do |address|
+      %strong= address.name
+      - address.items.each do |item|
+        .row.container
+          .col-lg-2.col-xs-2
+            = item.name
+          .col-lg-2.col-xs-2
             = link_to "View", item_path(item.id), class: "btn btn-primary"
-            \|
-          %td
+          .col-lg-2.col-xs-2
             = link_to "Edit", edit_item_path(item.id), class: "btn btn-warning"
-            \|
-          %td
+          .col-lg-2.col-xs-2
             = link_to "Delete", item_path(item.id), method: :delete, class: "btn btn-danger"
-        %br
-
-    = link_to "New Item", new_item_path, class: "btn btn-success"

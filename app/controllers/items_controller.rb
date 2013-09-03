@@ -5,6 +5,7 @@ class ItemsController < ApplicationController
   skip_before_action :require_login, only:[:show, :search]
 
   def index
+    @addresses = current_user.addresses.map{|address| address unless address.items.empty?}.compact
     @items = current_user.items
   end
 

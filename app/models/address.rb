@@ -1,7 +1,7 @@
 class Address < ActiveRecord::Base
   belongs_to :country
   belongs_to :addressable, polymorphic: true
-  acts_as_gmappable
+  acts_as_gmappable check_process: true, validation: true
   reverse_geocoded_by :latitude, :longitude
 
   validates :city,
