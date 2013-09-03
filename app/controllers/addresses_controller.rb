@@ -23,7 +23,7 @@ class AddressesController < ApplicationController
 
 
   def update_geolocation
-    cookies[:location] = {value: {latitude: params[:location][:latitude], longitude: params[:location][:longitude]}, expires: 1.hour.from_now}
+    cookies[:position] = {value: {latitude: params[:position][:latitude], longitude: params[:position][:longitude]}, expires: 1.hour.from_now}
     respond_to do |format|
       format.all { head :ok, content_type: "text/html" }
     end

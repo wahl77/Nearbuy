@@ -10,24 +10,31 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def create_menu_variables
-    @form_item = Item.new
-    @form_address = @form_item.build_address
-    @form_image = @form_item.images.build
-  end
-
   protected
     def not_authenticated
       redirect_to root_path, :alert => "Please login first."
     end
 
-    def user_current_location
-      # For an HTTP request do the following
-      ip = Geocoder.search("#{request.ip}") unless cookies[:location]
+    # This function just set-up the navigation form 
+    # with variable that will be used on every page
+    def create_menu_variables
+      @form_item = Item.new
+      @form_address = @form_item.build_address
+      @form_image = @form_item.images.build
+    end
 
-      if cookies[:location]
-        address = Address.new(eval(cookies[:location]))
+    # This methods get either geolocation information 
+    # if the user has a cookie. Otherwise, it tries to
+    # get the information from ip data
+    def user_current_location
+
+      if cookies[:position]
+        # If cookies are set, use information from cookie
+        address = Address.new(eval(cookies[:position]))
       else
+        # For an HTTP request do the following
+        # If no cookies, try to aquire location from ip
+        ip = Geocoder.search("#{request.ip}")
         address = Address.new(latitude: ip.first.latitude, longitude: ip.first.longitude)
         if Rails.env.development?
           #address = Address.new(latitude: 37.78257, longitude: -122.3899269)# SF

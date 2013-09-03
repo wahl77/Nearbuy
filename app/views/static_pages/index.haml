@@ -22,6 +22,13 @@
         = "near #{params[:location]}" unless params[:location].blank?
       - else
         Some random items in your neighborhood
+
+- if current_user && (params[:query] || params[:location])
+  .row.container
+    .col-lg-12.results_category
+      - Category.all.each do |category|
+        = check_box_tag category.name.downcase, category.id, checked:true, class: "filter_results"
+        = category.name
     
 .row
   .col-lg-12
@@ -52,3 +59,4 @@
     # First verions of map to be displayed based on 
     # ip or something we get from server
     put_map()
+

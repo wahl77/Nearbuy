@@ -4,9 +4,11 @@ window.initialize_gmaps_autocomplete = () ->
   autocomplete = new google.maps.places.Autocomplete(input);
   autocomplete.setTypes(['geocode']);
 
+jQuery ->
+  initialize_gmaps_autocomplete()
+
 # Diplay a map given a position object (only one position)
 window.display_map = (position) ->
-  #$('#map_banner').css("display", "block")
   mapOptions = {
     zoom: 13
     zoomControl: false,
@@ -22,42 +24,3 @@ window.display_map = (position) ->
   })
   map.setCenter(pos)
 
-
-# This function is ran if geolocation data is over 1/2 hour old
-window.find_user_geolocation = () ->
-  if navigator.geolocation
-    # Acquire HTML5 value in acquire_position
-    navigator.geolocation.getCurrentPosition(acquire_position, show_error)
-  else
-    # User does not support HTML5 geolocation feature
-
-
-
-
-
-
-
-
-
-
-
-
-# Specific functions
-show_error = (error) ->
-  # Do nothing
-
-acquire_position = (geo_position) ->
-  # Create a custom position object to display map
-  location = {
-    latitude: geo_position.coords.latitude
-    longitude: geo_position.coords.longitude
-  }
-  send_data(location)
-
-send_data = (location) ->
-  options = {
-    url: "/update_geolocation" 
-    type: "get"
-    data: location = { location }
-  }
-  $.ajax(options)

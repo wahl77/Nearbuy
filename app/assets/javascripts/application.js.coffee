@@ -18,7 +18,6 @@
 # require turbolinks 
 
 jQuery ->
-  initialize_gmaps_autocomplete()
 
   # The following is for input field size of navbar
   $("#search_location_nav").on('focus', 
@@ -51,4 +50,88 @@ jQuery ->
   # End of quick post
 
   # Get information latitude/longitude from address
-  $('form#search_address').on("submit", find_address_location) 
+  $('form#search_address').on("submit", find_items_address) 
+
+
+# Will put two values into hidden fields
+# Then run the call back 
+window.fill_in_lat_lng = (callback) ->
+  if document.getElementById('address[latitude]').value == "" && document.getElementById('search_location_nav').value != ""
+    # Use google Geocode to do so
+    address = document.getElementById('search_location_nav').value
+      
+    geocoder = new google.maps.Geocoder()
+    geocoder.geocode({'address': address}, 
+      (results, status) -> 
+        if (status != "OK")
+          alert 'Sorry, no address found'
+        else
+          # Create a custom position object to display map
+          latLng = results[0].geometry.location
+          position = {
+            latitude: latLng.lat()
+            longitude: latLng.lng()
+          }
+          document.getElementById('address[latitude]').value = position.latitude
+          document.getElementById('address[longitude]').value = position.longitude
+        # If there is a callback now is the time to perform it
+        if callback and (typeof(callback) == "function")
+          callback()
+    )
+  
+
+
+# Aquire Geolocation at start
+
+# This function is ran if geolocation data is over 1/2 hour old
+window.find_user_geolocation = () ->
+  if navigator.geolocation
+    # Acquire HTML5 value in acquire_position
+    navigator.geolocation.getCurrentPosition(acquire_position, show_error)
+  else
+    # User does not support HTML5 geolocation feature
+
+# Specific functions for goelocation
+# Do nothing
+show_error = (error) ->
+
+# Get the actual position
+acquire_position = (geo_position) ->
+  # Create a custom position object to display map
+  position = {
+    latitude: geo_position.coords.latitude
+    longitude: geo_position.coords.longitude
+  }
+  send_data(position)
+  display_map(position)
+
+send_data = (position) ->
+  options = {
+    url: "/update_geolocation" 
+    type: "get"
+    data: position = { position }
+  }
+  $.ajax(options)
+
+
+# Find information based on address and query
+window.find_items_address = (event) -> 
+  lat = document.getElementById('address[latitude]').value
+  address = document.getElementById('search_location_nav').value 
+  query = document.getElementById('query').value 
+  
+  if (address == "" and query != "") or (lat != "")
+    # Perform search if values are present
+    return 
+  else  
+    event.preventDefault()
+    fill_in_lat_lng(
+      () -> 
+        # Re-read latitude
+        lat = document.getElementById('address[latitude]').value
+
+        # We got a vaule back 
+        if lat != ""
+          # We can now perform a new submit
+          $('form#search_address').submit()
+    )

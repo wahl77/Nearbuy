@@ -1,8 +1,8 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
-  before_action :find_address, only:[:get_sample, :around_me, :search]
+  before_action :find_address, only:[:search]
 
-  skip_before_action :require_login, only:[:get_sample, :show, :search]
+  skip_before_action :require_login, only:[:show, :search]
 
   def index
     @items = current_user.items
@@ -62,54 +62,25 @@ class ItemsController < ApplicationController
     redirect_to items_path
   end
 
-  def around_me
+  def search
+    # @address already set by find_address
     if params[:categories].nil?
       @categories = Category.all.map{|x| x.id.to_s}
     else
       @categories = params[:categories].split(",")
     end 
-
-    @address = user_current_location
-
-    # Make a list of all items near you
-    @items = Item.near(@address, 2)
-
-    respond_to do |format|
-      format.html 
-      format.json { 
-        @items = @items.map{|item| {id: item.id, name: item.name, description: item.description, image: item.images.empty? ? nil : item.images.first.url } if (item.categorizations.pluck(:category_id).map{|x| x.to_s} - @categories).size < item.categorizations.pluck(:category_id).map{|x| x.to_s}.size }.compact
-        render json: @items.to_json 
-      }
-    end
-  end
-
-  def get_sample
-    # @ address already set by find_address
-
-    # Make a list of all items near you
-    @items = Item.near(@address, 5).sample(5)
-
-    respond_to do |format|
-      format.html { 
-        # This is the same as index page
-        render template: "static_pages/index"
-      }
-      format.json { 
-        # This is a list of JSON formated list containing item infor and image url
-        render json: @items.map{|item| {id: item.id, name: item.name, description: item.description, image: item.images.empty? ? nil : item.images.first.url } }.to_json 
-      }
-      format.js {}
-    end
-  end
-
-
-  def search
-    # @address already set by find_address
     @query = params[:query]
     @range = params[:range] || 10
     @items = params[:query] ? Item.item_search(@query, @address, @range).results : Item.near(@address, 5).sample(5)
     @items = @items.sample(5) unless current_user
-    render template: "static_pages/index"
+    respond_to do |format|
+      format.html{
+        render template: "static_pages/index"
+      }
+      format.json{ 
+        render json: @items.map{|item| {id: item.id, name: item.name, description: item.description, image: item.images.empty? ? nil : item.images.first.url } if (item.categorizations.pluck(:category_id).map{|x| x.to_s} - @categories).size < item.categorizations.pluck(:category_id).map{|x| x.to_s}.size }.compact
+        }
+    end
   end
 
   private
