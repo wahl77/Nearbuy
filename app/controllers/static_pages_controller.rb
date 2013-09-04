@@ -3,7 +3,7 @@ class StaticPagesController < ApplicationController
 
   def index
     @address = user_current_location
-    @items = Item.near(@address, RANGE_CONSTANT).sample(5).shuffle
+    @items = Item.near(@address, RANGE_CONSTANT).sample(4).shuffle
   end
 
   def about

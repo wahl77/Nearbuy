@@ -29,7 +29,7 @@
     .col-lg-6.text-right
       #slider.medium
       #echo.medium
-      = current_user ? "Range in #{current_user.profile.distance_units}" : "Range in KM"
+      = "Range in #{distance_units(false)}"
 
   .row.container
     .col-lg-12.results_category
@@ -40,10 +40,10 @@
     
 .row
   .col-lg-12
-    .items
-      = render partial:"items/items", locals:{items: @items}
+    = render partial:"items/items", locals:{items: @items}
 
 = content_for :head do 
+  %script{src:"//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.1/masonry.pkgd.js"}
   :css
     @media screen and (min-width: 480px) { 
       #map_banner{

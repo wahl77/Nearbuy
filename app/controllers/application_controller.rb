@@ -11,6 +11,11 @@ class ApplicationController < ActionController::Base
 
 
   protected
+    def distance_multiplier
+      return current_user ? current_user.profile.distance_multiplier : 1
+    end
+    helper_method :distance_multiplier
+
     def not_authenticated
       redirect_to root_path, :alert => "Please login first."
     end

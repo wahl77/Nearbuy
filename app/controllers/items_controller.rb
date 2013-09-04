@@ -74,7 +74,7 @@ class ItemsController < ApplicationController
     @range = params[:range] ? params[:range].to_f : RANGE_CONSTANT
     @range = @range * current_user.profile.distance_multiplier if current_user
     @items = (params[:query] && !params[:query].blank?) ? Item.item_search(@query, @address, @range).results : Item.near(@address, @range)
-    @items = @items.sample(5) unless current_user
+    @items = @items.sample(4) unless current_user
     respond_to do |format|
       format.html{
         render template: "static_pages/index"
@@ -82,6 +82,10 @@ class ItemsController < ApplicationController
       format.json{ 
         render json: @items.map{|item| {id: item.id, name: item.name, description: item.description, image: item.images.empty? ? nil : item.images.first.url } if (item.categorizations.pluck(:category_id).map{|x| x.to_s} - @categories).size < item.categorizations.pluck(:category_id).map{|x| x.to_s}.size }.compact
         }
+      format.js{
+        render layout: false
+        
+      }
     end
   end
 

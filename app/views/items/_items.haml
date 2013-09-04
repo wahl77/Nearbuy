@@ -1,9 +1,17 @@
-- items.each do |item|
-  - if item.images.empty?
-    .item
+.items#items.js-masonry{"data-masonry-options"=>'{ "itemSelector": ".item" }'}
+  - items.each do |item|
+    .item{style:"border-top: 5px solid #{cycle("red","green","blue", "black", "orange")}"} 
       %h1= link_to item.name, item_path(item)
-      %p= item.description
-  - else 
-    .item{style:"background: url(\"#{item.images.first.url}\"); background-size: 200px 200px; background-size: cover"}
-      %h1= link_to item.name, item_path(item)
-      %p= item.description
+      = image_tag item.images.first.url unless item.images.empty? 
+      %p.description
+        = truncate(item.description, length: 100)
+      %p.distance  
+        = "<"
+        = ((item.address.distance_to(@address)*distance_multiplier)+0.1).round(1)
+        = distance_units
+      %p.posted_by
+        Posted 
+        - days = ((Time.zone.now - item.created_at) / (24*3600)).floor
+        = days == 0 ? "today" : pluralize(days, "day ago", "days ago")
+        by
+        = link_to item.user.profile.first_name, user_path(item.user)

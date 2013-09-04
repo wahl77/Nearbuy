@@ -22,19 +22,19 @@ window.get_data = () ->
       address: 
         latitude: document.getElementById('address[latitude]').value 
         longitude: document.getElementById('address[longitude]').value
-    dataType: "json"
-    complete: (response, status) ->
-      $(".items").empty()
-      $('.spinner').hide()
-      document.getElementById('address[latitude]').value = ""
-      document.getElementById('address[longitude]').value = ""
-      results = response.responseJSON
-      for item in results
-        link = $("<a>").attr("href", "/items/" + item.id).text(item.name)
-        header = $('<h1>').append(link)
-        div = $("<div>").attr("class", "item").append(header).append("</h1><p>" + item.description + "</p>")
-        div.attr("style", "background: url(" + item.image.url.url + "); background-size: 200px 200px; background-size: cover") if item.image != null
-        $('.items').append(div)
+    dataType: "script"
+    #complete: (response, status) ->
+    #  $(".items").empty()
+    #  $('.spinner').hide()
+    #  document.getElementById('address[latitude]').value = ""
+    #  document.getElementById('address[longitude]').value = ""
+    #  results = response.responseJSON
+    #  for item in results
+    #    link = $("<a>").attr("href", "/items/" + item.id).text(item.name)
+    #    header = $('<h1>').append(link)
+    #    div = $("<div>").attr("class", "item").append(header).append("</h1><p>" + item.description + "</p>")
+    #    div.attr("style", "background: url(" + item.image.url.url + "); background-size: 200px 200px; background-size: cover") if item.image != null
+    #    $('.items').append(div)
 
   $.ajax options
 

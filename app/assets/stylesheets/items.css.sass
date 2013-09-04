@@ -1,0 +1,78 @@
+// Place all the styles related to the items controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#items
+  overflow: hidden
+
+.item
+  overflow: auto
+  width: 24%
+  border-size: 5px 
+  border-style: outset
+  padding: 5px 10px
+  background: rgba(0, 0, 0, 0.2)
+  margin: 0 0 1% 1%
+  p.distance, p.posted_by
+    text-align: right 
+    margin: 0
+  &:hover
+    background: rgba(255, 255, 255, 1)
+  h1
+    margin: 0
+  img
+    max-width: 80%
+    margin: 10px 10%
+
+@media screen and (max-width: 768px)
+  .item
+    width: 90%
+
+.item
+  -webkit-transition: background 0.4s ease-in-out
+  -moz-transition: background 0.4s ease-in-out
+  -o-transition: background 0.4s ease-in-out
+  transition: background 0.4s ease-in-out
+
+//
+//.items{
+//  margin: 0 auto;
+//  overflow: hidden
+//}
+//
+//.item{
+//  float: left;
+//  width: 200px;
+//  height: 200px;
+//  background: red;
+//  border: 1px solid black;
+//  margin: 10px;
+//  text-align: center;
+//}
+//@media screen and (max-width: 768px) { 
+//  .item{
+//    float: none;
+//    margin: 10px auto;
+//  }
+//}
+//
+//.item a, .item p {
+//  background-color: rgba(255, 255, 255, 0.4);
+//  display: inline;
+//}
+//
+//.item h1{
+//  //font-size: 10px;
+//}
+//
+//
+//.spinner img{
+//  display: block;
+//  margin: 0 auto;
+//}
+//
+//.dropdown-menu form {
+//  margin-top: 20px;
+//  margin-left: 20px;
+//}
+//*/
