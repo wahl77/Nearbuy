@@ -61,6 +61,12 @@ class Ability
       user == comment.sender
     end
 
+    can :create, Profile
+    can :read, Profile
+    can :update, Profile do |profile|
+      user.profile == profile
+    end
+
     can :manage, Image
   end
 end

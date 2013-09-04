@@ -46,7 +46,7 @@
       %script{type:"text/javascript", src:"http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"}
 
 
-    - unless cookies[:location]
+    - unless cookies[:position]
       :coffee
         jQuery -> 
           # Get user location

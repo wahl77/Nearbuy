@@ -71,8 +71,9 @@ class ItemsController < ApplicationController
       @categories = params[:categories].split(",")
     end 
     @query = params[:query]
-    @range = params[:range] || 10
-    @items = params[:query] ? Item.item_search(@query, @address, @range).results : Item.near(@address, 5).sample(5)
+    @range = params[:range] || RANGE_CONSTANT
+    @range = @range * current_user.profile.distance_multiplier if current_user
+    @items = params[:query] ? Item.item_search(@query, @address, @range).results : Item.near(@address, @range)
     @items = @items.sample(5) unless current_user
     respond_to do |format|
       format.html{

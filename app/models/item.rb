@@ -38,7 +38,7 @@ class Item < ActiveRecord::Base
   end
 
   # Find items in a certain radius of a location
-  def self.near(address=nil, range=10)
+  def self.near(address=nil, range=RANGE_CONSTANT)
     Item.where(address_id: Address.near(address, range).map{|x| x.id}.to_a)
   end
 

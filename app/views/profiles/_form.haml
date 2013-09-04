@@ -1,0 +1,23 @@
+= form_for @profile do |f|
+  - if @profile.errors.any?
+    .error_messages
+      %h2 Form is invalid
+      %ul
+        - for message in @profile.errors.full_messages
+          %li= message
+
+  .field
+    = f.label :first_name
+    = f.text_field :first_name, class: "form-control"
+
+  .field
+    = f.label :last_name
+    = f.text_field :last_name, class: "form-control"
+
+
+  .field
+    = f.label :distance_multiplier
+    = f.select :distance_multiplier, options_for_select([["Kilometers", "1.0"], ["Miles", "0.621371"]], @profile.distance_multiplier), {}, class: "form-control"
+
+  .actions= f.submit
+

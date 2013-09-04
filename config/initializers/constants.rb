@@ -3,3 +3,6 @@ EMAIL_REGEX = /^[+_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]
   |(aero|coop|info|museum|name))$/xi
 
 PASSWORD_REGEX = /.{8,}/ # At lease 8 character long
+
+
+RANGE_CONSTANT = 5 # For a default of 5 kilometers

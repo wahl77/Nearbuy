@@ -78,6 +78,9 @@ window.fill_in_lat_lng = (callback) ->
         if callback and (typeof(callback) == "function")
           callback()
     )
+  else
+    console.log "No lat/lng for address"
+    callback()
   
 
 

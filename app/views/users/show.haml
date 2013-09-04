@@ -3,7 +3,7 @@
     %h1= "Profile of #{@user.email}"
 .row
   .col-lg-6.col-lg-offset-6{style: "text-align: right"}
-    = link_to "Edit profile", edit_user_path(@user), class: "btn btn-info" if can? :update, @user
+    = link_to "Edit profile", edit_profile_path(@user.profile), class: "btn btn-info" if can? :update, @user.profile
 
 .row
   .col-lg-12
@@ -12,15 +12,21 @@
     %h4 Contact information
     First Name 
     \:
-    = @user.first_name
+    = @user.profile.first_name || "No first name"
     %br
     Last Name 
     \:
-    = @user.last_name || "OK"
+    = @user.profile.last_name || "No last name"
 
     %hr.soften
 
+.row
+  .col-lg-12
+    %h4 Prferences
+    Units: 
+    = @user.profile.distance_units
 
+    %hr.soften
 .row
   .col-lg-6
     %h4 Addresses

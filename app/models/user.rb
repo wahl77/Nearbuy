@@ -1,6 +1,11 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
 
+  # Here is where profile information should be stored
+  has_one :profile, dependent: :destroy
+
+  accepts_nested_attributes_for :profile
+
   has_one :image, as: :imageable, dependent: :destroy # Profile picture
   accepts_nested_attributes_for :image, allow_destroy: true
 

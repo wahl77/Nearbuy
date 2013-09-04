@@ -25,10 +25,15 @@
 
 - if current_user && (params[:query] || params[:location])
   .row.container
+    .col-lg-12.text-right
+      "here comes a slider"
+
+  .row.container
     .col-lg-12.results_category
       - Category.all.each do |category|
         = check_box_tag category.name.downcase, category.id, checked:true, class: "filter_results"
         = category.name
+
     
 .row
   .col-lg-12

@@ -1,4 +1,8 @@
 Nearbuy::Application.routes.draw do
+  get "profiles/edit"
+  get "profiles/update"
+  get "profile/edit"
+  get "profile/update"
   root "static_pages#index"
   get "/about" => "static_pages#about"
 
@@ -6,6 +10,7 @@ Nearbuy::Application.routes.draw do
 
 
   resources :users
+  resources :profiles, only: [:update, :edit]
   resources :addresses
   resources :sessions, only: [:create, :new, :destroy]
 
