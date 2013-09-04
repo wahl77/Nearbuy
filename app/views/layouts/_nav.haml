@@ -13,7 +13,6 @@
           - if current_user
             %li= link_to "My Profile", user_path(current_user)
             %li= link_to "My Items", items_path
-            %li= link_to "Around Me", around_me_items_path
 
         %ul.nav.navbar-nav.navbar-right
           %li= link_to "About", about_path
@@ -93,6 +92,7 @@
               = text_field_tag :location, nil, placeholder:"Where? (San Francisco, Brisbane, ...)", class: "form-control", id:"search_location_nav", value:"#{params[:location]}"
               %input{type:"hidden", id:"address[latitude]", name:"address[latitude]"} 
               %input{type:"hidden", id:"address[longitude]", name:"address[longitude]"}
+              %input{type:"hidden", id:"search_range", name:"range", value:"#{params[:range] ? params[:range] : RANGE_CONSTANT}"}
             .col-lg-2
               = submit_tag "Go", class: "form-control btn btn-warning"
 

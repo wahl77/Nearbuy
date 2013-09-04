@@ -123,7 +123,7 @@ window.find_items_address = (event) ->
   address = document.getElementById('search_location_nav').value 
   query = document.getElementById('query').value 
   
-  if (address == "" and query != "") or (lat != "")
+  if (address == "" and query != "") or (lat != "") or (query == "" and address == "")
     # Perform search if values are present
     return 
   else  

@@ -1,31 +1,24 @@
 Nearbuy::Application.routes.draw do
-  get "profiles/edit"
-  get "profiles/update"
-  get "profile/edit"
-  get "profile/update"
+
   root "static_pages#index"
   get "/about" => "static_pages#about"
-
   get "/logout" => "sessions#destroy", as: :logout
 
+  get "/update_geolocation" => "addresses#update_geolocation", as: :update_geolocation
 
   resources :users
   resources :profiles, only: [:update, :edit]
   resources :addresses
   resources :sessions, only: [:create, :new, :destroy]
-
-  get "/update_geolocation" => "addresses#update_geolocation", as: :update_geolocation
+  resources :comments, only: [:create, :destroy]
 
   resources :items do
     collection do 
-      get "around_me"
-      get "get_sample"
       post "search"
     end
   end
 
 
-  resources :comments, only: [:create, :destroy]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

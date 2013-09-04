@@ -17,7 +17,7 @@
 
   .field
     = f.label :distance_multiplier
-    = f.select :distance_multiplier, options_for_select([["Kilometers", "1.0"], ["Miles", "0.621371"]], @profile.distance_multiplier), {}, class: "form-control"
+    = f.select :distance_multiplier, options_for_select([["Kilometers", "1.0"], ["Miles", "1.60934"]], @profile.distance_multiplier), {}, class: "form-control"
 
   .actions= f.submit
 

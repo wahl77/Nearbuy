@@ -25,8 +25,11 @@
 
 - if current_user && (params[:query] || params[:location])
   .row.container
-    .col-lg-12.text-right
-      "here comes a slider"
+    .col-lg-6
+    .col-lg-6.text-right
+      #slider.medium
+      #echo.medium
+      = current_user ? "Range in #{current_user.profile.distance_units}" : "Range in KM"
 
   .row.container
     .col-lg-12.results_category
@@ -65,3 +68,17 @@
     # ip or something we get from server
     put_map()
 
+:css
+  #slider {
+        float: left;
+        width: 300px;
+        margin: 4px 20px 0 0;
+    }
+
+    .medium {
+        font-size: 14px;
+    }
+    
+    .ui-slider-handle {
+        outline: none;
+    }

@@ -17,6 +17,9 @@ class Item < ActiveRecord::Base
 
   validates :address_id,
     presence: true
+
+  validates :categories, 
+    length:{ minimum: 1, message: "item needs at least one category"}
     
 
   def name=(value)
