@@ -15,3 +15,22 @@
         = days == 0 ? "today" : pluralize(days, "day ago", "days ago")
         by
         = link_to item.user.profile.first_name, user_path(item.user)
+
+:coffee
+  jQuery ->
+    $("#items").masonry(
+      {
+        itemSelector: '.item'
+      }
+    )
+    imgs = $("#items img")
+    for img in imgs
+      $(img).load(
+        () ->
+          $("#items").masonry(
+            {
+              itemSelector: '.item'
+            }
+          )
+      )
+

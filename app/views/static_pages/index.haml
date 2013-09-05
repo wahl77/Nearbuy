@@ -9,19 +9,18 @@
 
 .row.container
   .col-lg-12
-    %p.text-center
-      %h1{style:"display: none"} Items Around You
-    .spinner{style:"display:none"}= image_tag "ajax-loader.gif"
+    .text-center
 
 .row.container
   .col-lg-12
     %h3
       - if params[:location] || params[:query]
-        Search
+        Search results
         = "for #{params[:query]}" unless params[:query].blank?
         = "near #{params[:location]}" unless params[:location].blank?
       - else
         Some random items in your neighborhood
+    .text-center.spinner{style:"display:none"}= image_tag "ajax-loader.gif"
 
 - if current_user && (params[:query] || params[:location])
   .row.container
@@ -43,7 +42,6 @@
     = render partial:"items/items", locals:{items: @items}
 
 = content_for :head do 
-  %script{src:"//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.1/masonry.pkgd.js"}
   :css
     @media screen and (min-width: 480px) { 
       #map_banner{

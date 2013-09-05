@@ -65,24 +65,23 @@ class ItemsController < ApplicationController
 
   def search
     # @address already set by find_address
-    if params[:categories].nil?
-      @categories = Category.all.map{|x| x.id.to_s}
-    else
-      @categories = params[:categories].split(",")
-    end 
+    @categories = params[:categories].nil? ? Category.all.map{|x| x.id.to_s} : params[:categories].split(",")
     @query = params[:query]
     @range = params[:range] ? params[:range].to_f : RANGE_CONSTANT
     @range = @range * current_user.profile.distance_multiplier if current_user
     @items = (params[:query] && !params[:query].blank?) ? Item.item_search(@query, @address, @range).results : Item.near(@address, @range)
+    # Filter from categories, this should go in model
+    @items = @items.map{|item| item if (item.categorizations.pluck(:category_id).map{|x| x.to_s} - @categories).size < item.categorizations.pluck(:category_id).map{|x| x.to_s}.size}.compact
     @items = @items.sample(4) unless current_user
     respond_to do |format|
       format.html{
         render template: "static_pages/index"
       }
       format.json{ 
-        render json: @items.map{|item| {id: item.id, name: item.name, description: item.description, image: item.images.empty? ? nil : item.images.first.url } if (item.categorizations.pluck(:category_id).map{|x| x.to_s} - @categories).size < item.categorizations.pluck(:category_id).map{|x| x.to_s}.size }.compact
+        render json: @items.map{|item| {id: item.id, name: item.name, description: item.description, image: item.images.empty? ? nil : item.images.first.url }} 
         }
       format.js{
+
         render layout: false
         
       }
