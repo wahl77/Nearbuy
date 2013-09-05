@@ -14,7 +14,7 @@ window.get_data = () ->
 
   options =
     url: "/items/search"
-    method: "post"
+    method: "get"
     data:
       categories: data
       query: $("#query").val()
@@ -23,6 +23,11 @@ window.get_data = () ->
         latitude: document.getElementById('address[latitude]').value 
         longitude: document.getElementById('address[longitude]').value
     dataType: "script"
+    complete: (response, status) -> 
+      console.log options.url + options.data.serialize()
+      console.log status
+      console.log response
+      window.history.pushState("","", "");
     #complete: (response, status) ->
     #  $(".items").empty()
     #  $('.spinner').hide()

@@ -8,5 +8,8 @@ FactoryGirl.define do
     description "MyString"
     user 
     address 
+    after(:build) do |item|
+      item.categories << FactoryGirl.create(:category)
+    end
   end
 end

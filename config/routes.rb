@@ -14,7 +14,7 @@ Nearbuy::Application.routes.draw do
 
   resources :items do
     collection do 
-      post "search"
+      get "search"
     end
   end
 

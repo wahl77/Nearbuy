@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   authenticates_with_sorcery!
 
   # Here is where profile information should be stored
-  has_one :profile, dependent: :destroy
+  has_one :profile, dependent: :destroy, inverse_of: :user
 
   accepts_nested_attributes_for :profile
 
@@ -15,6 +15,10 @@ class User < ActiveRecord::Base
   has_many :addresses, as: :addressable, dependent: :destroy
   accepts_nested_attributes_for :addresses, allow_destroy: true, reject_if: lambda{|address| address[:number_and_street].blank? }
 
+
+  before_create :make_profile
+
+    
   validates :email,
     presence: true,
     uniqueness: true,
@@ -24,12 +28,17 @@ class User < ActiveRecord::Base
     presence:true, on: :create,
     confirmation:true
 
-  def first_name=(value)
-    write_attribute :first_name, value.capitalize
+  # Make sure a profile is associated with the user upon creation
+  def make_profile
+    self.profile = Profile.new if self.profile.nil?
   end
 
-  def last_name=(value)
-    write_attribute :last_name, value.capitalize
-  end
+  #def first_name=(value)
+  #  write_attribute :first_name, value.capitalize
+  #end
+
+  #def last_name=(value)
+  #  write_attribute :last_name, value.capitalize
+  #end
 
 end
