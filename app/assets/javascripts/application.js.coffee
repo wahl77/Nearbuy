@@ -47,6 +47,13 @@ jQuery ->
     (event) ->
       $('#spread_post_d').removeClass("open")
   )
+  $("a#new_address").on("click", 
+    (event) -> 
+      $("#form_old_address").remove()
+      $("#old_address_form").remove()
+      $("#new_address_form").show()
+      $("#form_new_address").show()
+  )
   # End of quick post
 
   # Get information latitude/longitude from address

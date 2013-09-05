@@ -27,13 +27,13 @@
 
           .field.form-group
             %legend.col-lg-6.col-lg-offset-3 Address
-            #old_address{style:("display: none" if current_user.addresses.empty?)}
+            #form_old_address{style:("display: none" if current_user.addresses.empty?)}
               = f.label :address_id, nil, class:"col-lg-2 control-label col-lg-offset-3"
               .col-lg-4#old_address
                 = f.select :address_id, options_for_select(current_user.addresses.map{|x| [x.name, x.id]}), {}, class: "form-control"
                 = link_to "New Address", "#", id: "new_address"
 
-            #new_address{style:("display: none" unless current_user.addresses.empty?)}
+            #form_new_address{style:("display: none" unless current_user.addresses.empty?)}
 
               = f.fields_for :address do |address_form|
                 .field.form-group
@@ -90,12 +90,3 @@
           .actions
             .col-lg-4.col-lg-offset-5
               = f.submit "Submit", class: "btn btn-success"
-
-
-:coffee
-  jQuery ->
-    $("#new_address").on("click", 
-      (event) -> 
-        $("#old_address").remove()
-        $("#new_address").show()
-    )
