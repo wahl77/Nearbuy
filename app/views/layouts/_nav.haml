@@ -18,11 +18,21 @@
           %li= link_to "About", about_path
           - if current_user
             %li= link_to "Logout #{current_user.email}", logout_path
+            /%li.dropdown
+            /  %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
+            /    = current_user.email 
+            /    %b.caret
+            /  %ul.dropdown-menu.clearfix{role: "menu", "aria-labelledby"=>"brow", style:"z-index: 2000"}
+            /    %li= link_to "Logout", logout_path
+            /    %li= link_to "Preferences", "#"
+            /  
+            
+            
           - else 
             %li= link_to "Login", "#login_modal", "data-toggle"=>"modal"
 
 
-  %nav.navbar{role: "navigation"} 
+  %nav.navbar#search_navbar{role: "navigation"} 
     .container
       .col-lg-4
         - if current_user

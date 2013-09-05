@@ -2,7 +2,7 @@
   - items.each do |item|
     .item{style:"border-top: 5px solid #{cycle("red","green","blue", "black", "orange")}"} 
       %h1= link_to item.name, item_path(item)
-      = image_tag item.images.first.url unless item.images.empty? 
+      = link_to image_tag(item.images.first.url) , item_path(item) unless item.images.empty? 
       %p.description
         = truncate(item.description, length: 100)
       %p.distance  
