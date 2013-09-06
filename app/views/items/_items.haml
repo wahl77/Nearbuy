@@ -14,7 +14,7 @@
         - days = ((Time.zone.now - item.created_at) / (24*3600)).floor
         = days == 0 ? "today" : pluralize(days, "day ago", "days ago")
         by
-        = link_to item.user.profile.first_name, user_path(item.user)
+        = link_to item.user.profile.first_name || "No Name Given", user_path(item.user)
 
 :coffee
   jQuery ->

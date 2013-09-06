@@ -54,6 +54,10 @@
   display: none;
 }
 
+#search_navbar{
+  position: static;
+}
+
 #spread_post_dropdown{
   padding: 10px;
   padding-top: 5px;

@@ -1,15 +1,26 @@
 .row
   .col-lg-12
-    %legend Item #{@item.name}
+    %h1 
+      Item #{@item.name}
+      = link_to "Edit", edit_item_path(@item), class:"btn btn-warning" if can? :edit, @item
 
 .row
   .col-lg-6
-    = link_to "Edit", edit_item_path(@item), class:"btn btn-warning" if can? :edit, @item
-    %br
-
+    .row
+      .col-lg-6
+        %h2 Name
+        = @item.name
+      .col-lg-6
+        %h3 Location
+        = ((@item.address.distance_to(@address)*distance_multiplier)+0.1).round(1)
+        = distance_units 
+        from you
+    %h3 Description
     = @item.description
+    %hr.soften
+    %h4 Categories
     - @item.categories.each do |category|
-      = category.name
+      = @item.categories.map{|c| c.name}.join(", ")
 
     %br
     - @item.images.each do |image|
@@ -18,18 +29,6 @@
   .col-lg-6
     = render partial:"layouts/map", locals:{places: [@item.address]}
 
-.row
-  .col-lg-6
-    %h4 Data
-    %strong Name:
-    = @item.name
-    %br
-    %strong Description:
-    = @item.description
-
-  .col-lg-6
-    %h4 Categories
-    = @item.categories.map{|c| c.name}.join(", ")
 
 .row
   .col-lg-6.col-lg-offset-3

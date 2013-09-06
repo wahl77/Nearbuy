@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
-  before_action :find_address, only:[:search]
+  before_action :find_address, only:[:search, :show]
 
   skip_before_action :require_login, only:[:show, :search]
 
