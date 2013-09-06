@@ -12,6 +12,8 @@ Nearbuy::Application.routes.draw do
   resources :sessions, only: [:create, :new, :destroy]
   resources :comments, only: [:create, :destroy]
 
+  resources :password_resets, only:[:new, :create, :edit, :update]
+
   resources :items do
     collection do 
       get "search"
