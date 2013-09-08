@@ -12,7 +12,7 @@
         = @item.name
       .col-lg-6
         %h3 Location
-        = ((@item.address.distance_to(@address)*distance_multiplier)+0.1).round(1)
+        = distance_calculator(@item.address, @address)
         = distance_units 
         from you
     %h3 Description

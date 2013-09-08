@@ -7,7 +7,7 @@
         = truncate(item.description, length: 100)
       %p.distance  
         = "<"
-        = ((item.address.distance_to(@address)*distance_multiplier)+0.1).round(1)
+        = distance_calculator(item.address, @address)
         = distance_units
       %p.posted_by
         Posted 

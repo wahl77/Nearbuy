@@ -17,6 +17,8 @@
 
 # require turbolinks 
 
+window.my_app = {}
+
 jQuery ->
 
   # The following is for input field size of navbar

@@ -49,6 +49,20 @@
       }
     }
 
+    #slider {
+          float: left;
+          width: 300px;
+          margin: 4px 20px 0 0;
+      }
+
+      .medium {
+          font-size: 14px;
+      }
+      
+      .ui-slider-handle {
+          outline: none;
+      }
+
 :coffee
   jQuery ->
     # This methods gets loaded at the start with varaibles from server. 
@@ -65,18 +79,10 @@
     # First verions of map to be displayed based on 
     # ip or something we get from server
     put_map()
-
-:css
-  #slider {
-        float: left;
-        width: 300px;
-        margin: 4px 20px 0 0;
-    }
-
-    .medium {
-        font-size: 14px;
-    }
     
-    .ui-slider-handle {
-        outline: none;
-    }
+    #########################
+    #content = '<div style="min-width: 150px; min-height: 30px;">Items around me</div>'
+    #map = new my_app.map('map_banner') 
+    #map.add_marker("#{@address.latitude}", "#{@address.longitude}", content)
+    ##map.add_marker("#{12}", "#{@address.longitude}", "Sweet"); 
+    #map.display_map()
