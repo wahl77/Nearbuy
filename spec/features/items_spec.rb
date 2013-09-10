@@ -21,4 +21,12 @@ describe "items" do
     expect(page).to have_content @item2.name
   end
 
+  it "can be searched" do
+    simulate_location(@item.address.latitude, @item.address.longitude)
+    visit root_path
+    fill_in "query", with: @item.name
+    click_button "Go"
+    expect(page).to have_content @item.description
+  end
+
 end

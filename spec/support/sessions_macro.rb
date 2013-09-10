@@ -8,4 +8,12 @@ module SessionMacro
       click_button "Login"
     end
   end
+
+  def simulate_location(lat, lng)
+    page.driver.browser.execute_script <<-JS
+      window.navigator.geolocation.getCurrentPosition = function(success){
+        var position = {"coords" : { "latitude": "#{lat}", "longitude": "#{lng}" }};
+      }
+    JS
+  end 
 end
