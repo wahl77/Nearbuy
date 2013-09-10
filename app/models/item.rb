@@ -31,18 +31,25 @@ class Item < ActiveRecord::Base
     text :name, boost: 10
     text :description, boost: 7
     integer :address_id
+    integer :category_ids, multiple: true do 
+      categories.map { |x| x.id }
+    end
+
   end
 
-  def self.item_search(query, address=nil, range=10)
+  def self.item_search(query, address=nil, range=10, categories=nil)
+    categories ||= Category.pluck(:id)
     self.search do
       fulltext query
       with(:address_id, Address.near(address, range).map{|x| x.id})
+      with(:category_ids, categories)
     end
   end
 
   # Find items in a certain radius of a location
-  def self.near(address=nil, range=RANGE_CONSTANT)
-    Item.where(address_id: Address.near(address, range).map{|x| x.id}.to_a)
+  def self.near(address=nil, range=RANGE_CONSTANT, categories=nil)
+    categories ||= Category.pluck(:id)
+    Item.joins(:categories).where("categories.id" => categories, address_id: Address.near(address, range).map{|x| x.id}.to_a).group("items.id").order("items.id DESC")
   end
 
 end

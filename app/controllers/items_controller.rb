@@ -65,13 +65,13 @@ class ItemsController < ApplicationController
 
   def search
     # @address already set by find_address
-    @categories = params[:categories].nil? ? Category.all.map{|x| x.id.to_s} : params[:categories].split(",")
+    @categories = params[:categories].split(",") unless params[:categories].nil?
     @query = params[:query]
     @range = params[:range] ? params[:range].to_f : RANGE_CONSTANT
     @range = @range * current_user.profile.distance_multiplier if current_user
-    @items = (params[:query] && !params[:query].blank?) ? Item.item_search(@query, @address, @range).results : Item.near(@address, @range)
-    # Filter from categories, this should go in model
-    @items = @items.map{|item| item if (item.categorizations.pluck(:category_id).map{|x| x.to_s} - @categories).size < item.categorizations.pluck(:category_id).map{|x| x.to_s}.size}.compact
+
+    @items = (params[:query] && !params[:query].blank?) ? Item.item_search(@query, @address, @range, @categories).results : Item.near(@address, @range, @categories)
+
     @items = @items.sample(4) unless current_user
     respond_to do |format|
       format.html{
