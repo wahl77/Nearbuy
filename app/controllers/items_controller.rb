@@ -27,17 +27,17 @@ class ItemsController < ApplicationController
     else
       @item = current_user.items.build(item_with_address_params)
       current_user.addresses << @item.address if (@item.address && @item.address.valid?)
-      @item.address = @item.address 
+      @item.address = @item.address
     end
     respond_to do |format|
       if @item.save
         format.html { redirect_to @item, notice: 'Item was successfully created.' }
         format.json { render action: 'show', status: :created, location: @item }
       else
-        format.html { 
+        format.html {
           @addres = @item.build_address
-          
-          render action: 'new' 
+
+          render action: 'new'
         }
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
@@ -53,8 +53,8 @@ class ItemsController < ApplicationController
       else
         format.html { render action: 'edit' }
         format.json { render json: @item.errors, status: :unprocessable_entity }
-      end 
-    end 
+      end
+    end
   end
 
   def destroy
@@ -77,13 +77,13 @@ class ItemsController < ApplicationController
       format.html{
         render template: "static_pages/index"
       }
-      format.json{ 
-        render json: @items.map{|item| {id: item.id, name: item.name, description: item.description, image: item.images.empty? ? nil : item.images.first.url }} 
+      format.json{
+        render json: @items.map{|item| {id: item.id, name: item.name, description: item.description, image: item.images.empty? ? nil : item.images.first.url }}
         }
       format.js{
 
         render layout: false
-        
+
       }
     end
   end

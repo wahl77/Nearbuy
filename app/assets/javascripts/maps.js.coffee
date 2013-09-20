@@ -8,11 +8,11 @@ jQuery ->
   initialize_gmaps_autocomplete()
 
 # Diplay a map given a position object (only one position)
-window.display_map = (position) ->
+window.display_map = (position, radius = null) ->
   mapOptions = {
     zoom: 13
     zoomControl: false,
-    disableDefaultUI: true, 
+    disableDefaultUI: true,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
   map = new google.maps.Map(document.getElementById('map_banner'), mapOptions);
@@ -24,15 +24,33 @@ window.display_map = (position) ->
   })
   map.setCenter(pos)
 
+  if radius
+    circle_options = {
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: map,
+      center: pos,
+      # Radius in meters
+      radius: radius,
+    }
+
+    cityCircle = new google.maps.Circle(circle_options);
+
+
+
+
 
 
 # The rest is code to try make the right template
-jQuery -> 
+jQuery ->
   my_app.map = class Map
     constructor: (canvas) ->
       mapOptions = {
         zoomControl: false,
-        disableDefaultUI: true, 
+        disableDefaultUI: true,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
       @infowindow = new google.maps.InfoWindow()
@@ -40,7 +58,7 @@ jQuery ->
 
       # Create a new map given the id
       @map = new google.maps.Map(document.getElementById(canvas), mapOptions);
-      
+
     add_marker: ( latitude, longitude, info_window ) ->
       # Create a new custom marker object
       marker = {
@@ -52,15 +70,17 @@ jQuery ->
       @markers.push(marker)
 
 
-    display_map: () -> 
+    draw_circle: () ->
+
+    display_map: () ->
       bounds = new google.maps.LatLngBounds()
-    
+
       # Loop through each added marker
       for marker in @markers
 
         # Create a position for them
         pos = new google.maps.LatLng(marker.latitude, marker.longitude)
-    
+
         # Give them a marker
         gmarker = new google.maps.Marker( { position: pos, map: @map } )
 
@@ -70,15 +90,19 @@ jQuery ->
         #extend the bounds to include each marker's position
         bounds.extend(gmarker.position)
 
+
+
+
+
       if @markers.length == 1
         @map.setCenter(bounds.getCenter())
         @map.setZoom(13)
-      else 
+      else
         @map.fitBounds(bounds)
 
 
     bindInfoWindow = (marker, map, infoWindow, html) ->
       google.maps.event.addListener marker, "click", ->
         infoWindow.setContent html
-        infoWindow.open map, marker 
-        
+        infoWindow.open map, marker
+

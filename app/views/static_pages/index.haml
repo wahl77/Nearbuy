@@ -73,8 +73,10 @@
         latitude: "#{@address.latitude}"
         longitude: "#{@address.longitude}"
       }
+
+
       # Finally, display the map
-      display_map(position)
+      display_map(position, parseFloat("#{@range.to_i*1000}"))
       
     # First verions of map to be displayed based on 
     # ip or something we get from server
