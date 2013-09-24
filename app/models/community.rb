@@ -10,20 +10,15 @@ class Community < ActiveRecord::Base
 
   # Add multiple users at once
   def add_members(*users)
-    users.each do |user|
-      self.members << user
-    end
+    self.members << users
   end
+  alias_method :add_member, :add_members
 
-  def add_member(user)
-    self.members << user
-  end
 
+  # Remove multiple users at once
   def remove_members(*users)
-    self.members = self.members - users
+    self.members.delete users
   end
+  alias_method :remove_member, :remove_members
 
-  def remove_member(user)
-    self.members.delete(user)
-  end
 end
