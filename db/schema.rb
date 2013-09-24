@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130904172038) do
+ActiveRecord::Schema.define(version: 20130924201825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,36 @@ ActiveRecord::Schema.define(version: 20130904172038) do
 
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   add_index "comments", ["sender_id"], name: "index_comments_on_sender_id", using: :btree
+
+  create_table "communities", force: true do |t|
+    t.integer  "owner_id"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "communities", ["owner_id"], name: "index_communities_on_owner_id", using: :btree
+
+  create_table "community_members", force: true do |t|
+    t.integer  "community_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "community_members", ["community_id"], name: "index_community_members_on_community_id", using: :btree
+  add_index "community_members", ["user_id"], name: "index_community_members_on_user_id", using: :btree
+
+  create_table "community_moderators", force: true do |t|
+    t.integer  "community_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "community_moderators", ["community_id"], name: "index_community_moderators_on_community_id", using: :btree
+  add_index "community_moderators", ["user_id"], name: "index_community_moderators_on_user_id", using: :btree
 
   create_table "countries", force: true do |t|
     t.string   "name"
