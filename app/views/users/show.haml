@@ -33,7 +33,7 @@
 
 .row
   .col-lg-6
-    - current_user.addresses.each do |address|
+    - current_user.addresses.includes(:country).each do |address|
       .row
         .col-lg-6
           %address

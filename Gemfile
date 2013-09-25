@@ -30,7 +30,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'sorcery'
 gem 'haml-rails'
 gem 'carrierwave'
-gem 'rmagick', '2.13.2', :git=>'http://github.com/rmagick/rmagick.git'
+gem 'rmagick'
 gem 'gmaps4rails'
 gem 'geocoder'
 gem 'cancan'
@@ -44,6 +44,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'meta_request'
   gem 'rack-mini-profiler'
+  gem 'bullet'
 end
 
 group :test, :development do
