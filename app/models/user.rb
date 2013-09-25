@@ -16,9 +16,21 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :addresses, allow_destroy: true, reject_if: lambda{|address| address[:number_and_street].blank? }
 
 
+  # A user's communities
+  has_many :community_members, -> { uniq }
+  has_many :communities, -> { uniq }, through: :community_members
+
+  # Communities a user moderates
+  has_many :community_moderators, -> { uniq }
+  has_many :moderating_communities, -> { uniq }, through: :community_moderators, source: :community
+
+  has_many :admin_communities, class_name: "Community", foreign_key: "owner_id"
+
+
+
   before_create :make_profile
 
-    
+
   validates :email,
     presence: true,
     uniqueness: true,

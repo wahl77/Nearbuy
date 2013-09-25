@@ -11,12 +11,12 @@ class Ability
     #     can :read, :all
     #   end
     #
-    # The first argument to `can` is the action you are giving the user 
+    # The first argument to `can` is the action you are giving the user
     # permission to do.
     # If you pass :manage it will apply to every action. Other common actions
     # here are :read, :create, :update and :destroy.
     #
-    # The second argument is the resource the user can perform the action on. 
+    # The second argument is the resource the user can perform the action on.
     # If you pass :all it will apply to every resource. Otherwise pass a Ruby
     # class of the resource.
     #
@@ -32,8 +32,8 @@ class Ability
     can :create, Item
     can :read, Item
     can :around_me, Item
-    can [:update, :destroy], Item do |item| 
-      item && item.user == user 
+    can [:update, :destroy], Item do |item|
+      item && item.user == user
     end
 
     can :create, User
@@ -41,7 +41,7 @@ class Ability
       some_user == user
     end
     can :update, User do |some_user|
-      some_user == user 
+      some_user == user
     end
 
     can :create, Address
@@ -52,6 +52,13 @@ class Ability
       (user.addresses.include? address) && (address.items.empty?)
     end
 
+    can :create, Community
+    can :read, Community do |community|
+      (community.members.include? user) || (community.owner == user) || (community.moderators.include? user)
+    end
+    can [:destroy, :update], Community do |community|
+      community.owner == user
+    end
 
     can :create, Comment
     can :read, Comment do |comment|
