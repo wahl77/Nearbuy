@@ -11,11 +11,12 @@ Nearbuy::Application.routes.draw do
   resources :addresses
   resources :sessions, only: [:create, :new, :destroy]
   resources :comments, only: [:create, :destroy]
+  resources :communities
 
   resources :password_resets, only:[:new, :create, :edit, :update]
 
   resources :items do
-    collection do 
+    collection do
       get "search"
     end
   end
@@ -62,7 +63,7 @@ Nearbuy::Application.routes.draw do
   #       get 'recent', on: :collection
   #     end
   #   end
-  
+
   # Example resource route with concerns:
   #   concern :toggleable do
   #     post 'toggle'

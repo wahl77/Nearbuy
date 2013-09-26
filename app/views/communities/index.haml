@@ -1,0 +1,6 @@
+%h1 My communities
+- @communities.uniq.each do |community|
+  = community.name
+  %br
+
+= link_to "New Community", new_community_path if can? :create, Community.new
