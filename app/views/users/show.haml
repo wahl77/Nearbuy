@@ -27,32 +27,33 @@
     = distance_units
 
     %hr.soften
-.row
-  .col-lg-6
-    %h4 Addresses
+- if @user == current_user
+  .row
+    .col-lg-6
+      %h4 Addresses
 
-.row
-  .col-lg-6
-    - current_user.addresses.includes(:country).each do |address|
-      .row
-        .col-lg-6
-          %address
-            %strong= address.name
-            %br
-            =address.number_and_street
-            %br
-            = address.city
-            %br
-            = "#{address.state} #{address.zip_code}, #{address.country.name}"
-        .col-lg-6
-          = link_to "Edit", edit_address_path(address)
-          \|
-          = link_to "Delete", address_path(address), method: :delete, data: { confirm: 'Confirm please?' }
-    /= render partial:"addresses/form"
-    = link_to "Add Address", new_address_path, class: "btn btn-success"
+  .row
+    .col-lg-6
+      - current_user.addresses.includes(:country).each do |address|
+        .row
+          .col-lg-6
+            %address
+              %strong= address.name
+              %br
+              =address.number_and_street
+              %br
+              = address.city
+              %br
+              = "#{address.state} #{address.zip_code}, #{address.country.name}"
+          .col-lg-6
+            = link_to "Edit", edit_address_path(address) if can? :edit, address
+            \|
+            = link_to "Delete", address_path(address), method: :delete, data: { confirm: 'Confirm please?' }
+      /= render partial:"addresses/form"
+      = link_to "Add Address", new_address_path, class: "btn btn-success"
 
 
-  .col-lg-6
-    = render partial:"layouts/map", locals:{places: @user.addresses} if @user == current_user
+    .col-lg-6
+      = render partial:"layouts/map", locals:{places: @user.addresses} if @user == current_user
 
 
